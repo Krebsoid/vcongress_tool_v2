@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<div id="event-payment" class="content-padding" data-ng-controller="OrderExecuteController">
+    <div class="form-container">
+        <span class="headline" data-locale-string="participant.payment.headline"></span>
+        <hr/>
+        <div class="event-payment-content">
+            <div>
+                <h2 data-locale-string="participant.payment.transaction.completePayment"></h2>
+            </div>
+        </div>
+        <div class="transaction-list">
+            <div class="transaction">
+                <div class="transaction-item-list">
+                    <div class="transaction-item" data-ng-repeat="container in transaction.paymentItemContainer">
+                        <div class="transaction-item-column amount"><span class="badge badge-black">{{ container.amount }}</span></div>
+                        <div class="transaction-item-column name"><span>{{ container.paymentItem.name }}<br/> <small>{{ container.paymentItem.description }}</small></span></div>
+                        <div class="transaction-item-column price"><span class="badge badge-green">{{ container.price | currency:'' }} &euro;</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-payment-complete-button-container">
+            <a class="action-button" data-ng-click="completePayment()">
+                <span class="glyphicon glyphicon-euro"></span>
+                <span data-waiting-message="{{ 'participant.payment.transaction.paymentInProgress' | localized }}" data-waiting-message-guard="paymentInProgress">
+                    <span data-locale-string="participant.payment.transaction.completePaymentViaPayPal"></span>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>

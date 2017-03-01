@@ -1,0 +1,88 @@
+<project name="compressed_webapp" default="default">
+
+    <property name="maven_target" value="${basedir}/target"/>
+    <property name="maven_exploded_war" value="${maven_target}/${maven_filename}.war"/>
+
+    <property environment="env"/>
+
+    <target name="default">
+        <property name="webapp_finalname" value="${final-name}-compressed.war"/>
+        <condition property="isWindows">
+            <os family="windows"/>
+        </condition>
+        <condition property="isUnix">
+            <os family="unix"/>
+        </condition>
+        <antcall target="build-compressed-war"/>
+    </target>
+
+    <target name="uncompressed">
+        <property name="webapp_finalname" value="${final-name}.war"/>
+        <antcall target="build-war"/>
+    </target>
+
+    <target name="build-compressed-war" depends="windows_gulp, linux_gulp">
+        <delete dir="${maven_exploded_war}/app"/>
+        <delete dir="${maven_exploded_war}/.tmp"/>
+        <delete dir="${maven_exploded_war}/.sass-cache"/>
+        <delete dir="${maven_exploded_war}/node_modules"/>
+        <delete dir="${maven_exploded_war}/gulp"/>
+
+        <delete file="${maven_exploded_war}/Gulpfile.js"/>
+        <delete file="${maven_exploded_war}/package.json"/>
+        <delete file="${maven_exploded_war}/bower.json"/>
+        <delete file="${maven_exploded_war}/.bowerrc"/>
+        <copy todir="${maven_exploded_war}/">
+            <fileset dir="${maven_exploded_war}/dist"/>
+        </copy>
+
+        <delete dir="${maven_exploded_war}/dist"/>
+
+        <antcall target="build-war"/>
+    </target>
+
+    <target name="build-war">
+        <copy todir="${maven_target}/temp">
+            <fileset dir="${maven_exploded_war}"/>
+        </copy>
+
+        <delete file="${maven_target}/temp/build.xml"/>
+
+        <war destfile="${maven_target}/${webapp_finalname}" needxmlfile="false" >
+            <fileset dir="${maven_target}/temp"/>
+        </war>
+    </target>
+
+
+    <target name="windows_gulp" if="isWindows">
+        <exec executable="cmd" dir="${basedir}/target/${maven_filename}.war/" output="log.txt" failonerror="true">
+            <arg value="/c npm install"/>
+        </exec>
+        <exec executable="cmd" dir="${basedir}/target/${maven_filename}.war/" output="log.txt" failonerror="true">
+            <arg value="/c bower install"/>
+        </exec>
+        <exec executable="cmd" dir="${basedir}/target/${maven_filename}.war/" output="log.txt">
+            <arg value="/c gulp clean"/>
+        </exec>
+        <exec executable="cmd" dir="${basedir}/target/${maven_filename}.war/" output="log.txt">
+            <arg value="/c gulp build"/>
+        </exec>
+    </target>
+
+
+    <target name="linux_gulp" if="isUnix">
+        <exec executable="bash" dir="${basedir}/target/${maven_filename}.war/" osfamily="unix" failonerror="true">
+            <arg line="-c 'npm install'"/>
+        </exec>
+        <exec executable="bash" dir="${basedir}/target/${maven_filename}.war/" osfamily="unix" failonerror="true">
+            <arg line="-c 'bower install --allow-root'"/>
+        </exec>
+        <exec executable="bash" dir="${basedir}/target/${maven_filename}.war/" osfamily="unix" failonerror="true">
+            <arg line="-c 'gulp clean'"/>
+        </exec>
+        <exec executable="bash" dir="${basedir}/target/${maven_filename}.war/" osfamily="unix" failonerror="true">
+            <arg line="-c 'gulp build'"/>
+        </exec>
+    </target>
+
+</project>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<div id="event-participation" class="content-padding" data-ng-controller="ParticipationController">
+    <div class="form-container" style="display: inline-block">
+        <span class="headline" data-locale-string="participant.participation.headline"></span>
+        <div data-event-info="event"></div>
+        <hr/>
+        <form>
+            <div data-ng-repeat="eventFeature in event.eventFeatures">
+                <div data-ng-if="eventFeature.eventFeatureType === 'PARTICIPANT_STATUS'"
+                     data-participant-status-selection="{{ eventFeature.id }}"></div>
+                <div data-ng-if="eventFeature.eventFeatureType === 'SELECTION'"
+                     data-selection-selection="{{ eventFeature.id }}"></div>
+                <div data-ng-if="eventFeature.eventFeatureType === 'DINNER_COMBO'"
+                     data-dinner-combo-selection="{{ eventFeature.id }}"></div>
+            </div>
+            <div class="input-container">
+                <div class="registration-link clearfix" style="float: left;">
+                    <a class="link" data-ui-sref="{{ backlink }}">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        <span data-locale-string="participant.participation.back"></span>
+                    </a>
+                </div>
+                <div class="registration-link clearfix" style="float: right;" data-ng-if="!admin">
+                    <div data-ng-show="isParticipationComplete()">
+                        <a data-ng-click="saveWithCost()" data-ng-if="cost() > 0" class="action-button" data-locale-string="participant.participation.saveWithCost"></a>
+                        <a data-ng-click="saveWithoutCost()" data-ng-if="cost() == 0" class="action-button" data-locale-string="participant.participation.saveWithoutCost"></a>
+                    </div>
+                    <div data-ng-show="!isParticipationComplete()">
+                        <a class="action-button disabled" data-locale-string="participant.participation.chooseSelection"></a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div style="display: inline-block; vertical-align: top; margin-top: 30px; margin-left: 7px">
+        <div data-ng-include="'./partials/content/event/participation/participation-info-panel.html'"></div>
+        <div data-ng-include="'./partials/content/event/participation/participation-fee-panel.html'"></div>
+    </div>
+
+</div>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="EventController">
+    <div class="form-container">
+        <span class="event-creation-headline">Sie haben Ihre Veranstaltung erfolgreich veröffentlicht.</span>
+        <hr/>
+        <div class="notification">
+            <span>Die Registrierung ist ab sofort erreichbar unter folgendem Link:</span><br/>
+            <span><a data-ng-href="{{ event.link }}" target="_blank">{{ event.link }}</a> </span><br/><br/>
+            <span>Diesen Link können Sie per E-Mail an Ihre Teilnehmer verschicken, auf Ihrer Homepage verlinken oder auf Ihren Printmedien abdrucken.</span>
+        </div>
+        <div style="height: 70px;">
+            <a class="action-button" style="margin-bottom: 5px;" ui-sref="administration.dashboard">zurück zur Zusammenfassung</a>
+            <a class="action-button" style="margin-bottom: 5px;" ui-sref="administration.event.event-editation({event: event.identifier})">Veranstaltung bearbeiten</a>
+            <a class="action-button" style="margin-bottom: 5px;" ui-sref="administration.event.participant-list({event: event.identifier})">Teilnehmerliste einsehen</a>
+        </div>
+    </div>
+</div>

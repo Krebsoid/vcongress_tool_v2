@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<div id="participant-list" data-ng-controller="ParticipantListController as participantList">
+    <h1>
+        <span data-locale-string="administration.participantList.headline"></span>
+        <a data-ng-href="{{ '/app/api/event/' + participantList.event.identifier + '/participants/export.csv' }}" target="_blank">
+            <img src="images/elements/form/csv-icon.png" data-tooltip data-original-title="{{ 'administration.participantList.exportAsCSV' | localized }}"/>
+        </a>
+    </h1>
+    <h2 data-ng-bind="participantList.event.name"></h2>
+
+    <section class="participant-list-area">
+
+        <div class="clearfix" style="width: 100%">
+            <div class="control-panel">
+                <div style="display: inline; margin-right: 5px;">
+                    <select data-ng-model="participantList.config.limit">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                    <span style="margin-left: 5px;" data-locale-string="common.of"></span>
+                </div>
+                <div style="display: inline; margin-right: 15px;">
+                    {{ participantList.visibleParticipants }} <span data-locale-string="common.results"></span>
+                </div>
+                <div class="filter-input-icon">
+                    <label for="search">
+                        <span class="glyphicon glyphicon-search" style="margin-right: 3px;"></span>
+                    </label>
+                </div>
+                <input id="search" class="filter-input" type="text" placeholder="{{ 'common.whatDoYouSearch' | localized }}"
+                       data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                       data-ng-model="participantList.stringFilter"/>
+                <label for="cancelled" style="margin: 0 3px 0 5px;"
+                        data-tooltip data-original-title="{{ 'administration.participantList.hideCancelled' | localized }}">
+                    <span class="glyphicon glyphicon-ban-circle" style="color: #337ab7;"></span>
+                </label>
+                <input id="cancelled" type="checkbox" data-ng-model="participantList.cancelled" style="vertical-align: -1px;">
+                <div style="position: relative; display: inline">
+                    <a class="btn" data-ng-click="participantList.columnPanel = !participantList.columnPanel"><span class="glyphicon glyphicon-th-list" style="margin-right: 3px;"></span><span data-locale-string="common.columnVisibility"></span></a>
+                    <div class="column-panel" data-ng-show="participantList.columnPanel">
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.title"/>
+                            <span data-locale-string="administration.participantList.title"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.firstName"/>
+                            <span data-locale-string="administration.participantList.firstName"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.lastName"/>
+                            <span data-locale-string="administration.participantList.lastName"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.gender"/>
+                            <span data-locale-string="administration.participantList.gender"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.street"/>
+                            <span data-locale-string="administration.participantList.street"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.city"/>
+                            <span data-locale-string="administration.participantList.city"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.zipCode"/>
+                            <span data-locale-string="administration.participantList.zipCode"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.state"/>
+                            <span data-locale-string="participant.registration.state"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.country"/>
+                            <span data-locale-string="administration.participantList.country"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.dateOfRegistration"/>
+                            <span data-locale-string="administration.participantList.registrationDate"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="participantList.config.view.email"/>
+                            <span data-locale-string="administration.participantList.email"></span>
+                        </label>
+                        <label data-ng-repeat="feature in participantList.onlyParticipationColumns(participantList.event.eventFeatures)">
+                            <span data-ng-if="feature.eventFeatureType ==='DINNER'">
+                                <input type="checkbox" data-ng-model="participantList.config.view[feature.eventItem.name]"/>
+                                {{ feature.eventItem.name }}
+                            </span>
+                            <span data-ng-if="feature.eventFeatureType ==='PARTICIPANT_STATUS' || feature.eventFeatureType ==='SELECTION'">
+                                <input type="checkbox" data-ng-model="participantList.config.view[feature.label]"/>
+                                {{ feature.label }}
+                            </span>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-link" style="float: left; margin: 10px 0 0 0;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.backToSummary"></span>
+                </a>
+            </div>
+        </div>
+
+        <div style="overflow-x: scroll; width: 100%; max-width: 100%;">
+        <table class="table table-striped participant-list">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th data-ng-click="participantList.setOrder('person.title');" data-ng-show="participantList.config.view.title">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.title')"></span>
+                    <span data-locale-string="administration.participantList.title"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.title')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.firstName');" data-ng-show="participantList.config.view.firstName">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.firstName')"></span>
+                    <span data-locale-string="administration.participantList.firstName"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.firstName')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.lastName');" data-ng-show="participantList.config.view.lastName">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.lastName')"></span>
+                    <span data-locale-string="administration.participantList.lastName"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.lastName')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.gender');" data-ng-show="participantList.config.view.gender">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.gender')"></span>
+                    M/F
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.gender')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.address.street');" data-ng-show="participantList.config.view.street">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.street')"></span>
+                    <span data-locale-string="administration.participantList.street"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.street')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.address.city');" data-ng-show="participantList.config.view.city">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.city')"></span>
+                    <span data-locale-string="administration.participantList.city"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.city')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.address.zipCode');" data-ng-show="participantList.config.view.zipCode">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.zipCode')"></span>
+                    <span data-locale-string="administration.participantList.zipCode"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.zipCode')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.address.state');" data-ng-show="participantList.config.view.state">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.state')"></span>
+                    <span data-locale-string="administration.participantList.state"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.state')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.address.country.name');" data-ng-show="participantList.config.view.country">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.country.name')"></span>
+                    <span data-locale-string="administration.participantList.country"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.address.country.name')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('dateOfRegistration');" data-ng-show="participantList.config.view.dateOfRegistration">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('dateOfRegistration')"></span>
+                    <span data-locale-string="administration.participantList.registrationDate"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('dateOfRegistration')"></span>
+                </th>
+                <th data-ng-click="participantList.setOrder('person.user.name');" data-ng-show="participantList.config.view.email">
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.user.name')"></span>
+                    <span data-locale-string="administration.participantList.email"></span>
+                    <span class="glyphicon" data-ng-class="participantList.headerClass('person.user.name')"></span>
+                </th>
+                <th data-ng-show="participantList.checkVisibilityForEventFeature(feature.id)" data-ng-repeat="feature in participantList.onlyParticipationColumns(participantList.event.eventFeatures)">
+                    <span data-ng-if="feature.eventFeatureType ==='DINNER'">
+                        <span class="participant-column" data-ng-bind="feature.eventItem.name" data-tooltip data-original-title="{{ feature.eventItem.name }}"></span>
+                    </span>
+                    <span data-ng-if="feature.eventFeatureType ==='PARTICIPANT_STATUS' || feature.eventFeatureType ==='SELECTION'">
+                        <span class="participant-column" data-ng-bind="feature.label" data-tooltip data-original-title="{{ feature.label }}"></span>
+                    </span>
+                </th>
+            </tr>
+            <tbody data-ng-repeat="participant in participantList.participants
+            | orderBy: participantList.getOrder()
+            | filter: participantList.getFilter
+            | slice: participantList.listBegin : participantList.config.limit">
+            <tr data-ng-click="participant.showing = !participant.showing"
+                data-ng-class="{opened : participant.showing, cancelled: !participant.active }"
+                ng-class-odd="'odd'" ng-class-even="'even'">
+                <td><span data-ng-bind="$index+1"></span></td>
+                <td data-ng-show="participantList.config.view.title"><span data-ng-bind="participant.person.title"></span></td>
+                <td data-ng-show="participantList.config.view.firstName"><span data-ng-bind="participant.person.firstName"></span></td>
+                <td data-ng-show="participantList.config.view.lastName"><span data-ng-bind="participant.person.lastName"></span></td>
+                <td data-ng-show="participantList.config.view.gender">
+                    <div class="female" data-ng-if="participant.person.gender == 'FEMALE'"></div>
+                    <div class="male" data-ng-if="participant.person.gender == 'MALE'"></div>
+                </td>
+                <td data-ng-show="participantList.config.view.street"><span data-ng-bind="participant.person.address.street"></span></td>
+                <td data-ng-show="participantList.config.view.city"><span data-ng-bind="participant.person.address.city"></span></td>
+                <td data-ng-show="participantList.config.view.zipCode"><span data-ng-bind="participant.person.address.zipCode"></span></td>
+                <td data-ng-show="participantList.config.view.state"><span data-ng-bind="participant.person.address.state"></span></td>
+                <td data-ng-show="participantList.config.view.country"><span data-ng-bind="participant.person.address.country.name"></span></td>
+                <td data-ng-show="participantList.config.view.dateOfRegistration"><span data-ng-bind="participant.dateOfRegistration"></span></td>
+                <td data-ng-show="participantList.config.view.email"><a href="mailto:{{participant.person.user.name}}" data-ng-bind="participant.person.user.name"></a></td>
+                <td data-ng-show="participantList.checkVisibilityForEventFeature(selection.eventFeatureId)" data-ng-repeat="selection in participant.eventSelections">
+                    <span data-ng-if="selection.eventFeature ==='DINNER'">
+                        <span data-ng-if="selection.checked"><span class="glyphicon glyphicon-ok-sign green"></span> </span>
+                        <span data-ng-if="!selection.checked"><span class="glyphicon glyphicon-remove-sign red"></span></span>
+                    </span>
+                    <span data-ng-if="selection.eventFeature ==='PARTICIPANT_STATUS' || selection.eventFeature ==='SELECTION'">
+                        <span data-ng-bind="selection.value"></span>
+                    </span>
+                </td>
+            </tr>
+            <tr data-ng-show="participant.showing">
+                <td colspan="100%">
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.participantList.personalData"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>{{ participant.person.title }}{{ participant.person.firstName }} {{ participant.person.lastName }}</div>
+                        <div>{{ participant.person.address.street }}</div>
+                        <div>{{ participant.person.address.zipCode }} {{ participant.person.address.city }}</div>
+                        <div>{{ participant.person.address.country.name }}</div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.participantList.contact"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.emailShort"></span>
+                            </span>
+                            <span data-ng-bind-html="participant.person.user.name | linky"></span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.phone"></span>
+                            </span>
+                            <span>{{ participant.person.contact.phone }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.fax"></span>
+                            </span>
+                            <span>{{ participant.person.contact.fax }}</span>
+                        </div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.participantList.occupation"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.institute"></span>
+                            </span>
+                            <span>{{ participant.person.occupation.institute }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.department"></span>
+                            </span>
+                            <span>{{ participant.person.occupation.department }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.position"></span>
+                            </span>
+                            <span>{{ participant.person.occupation.position }}</span>
+                        </div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0; cursor: pointer;" data-restricted-roles="ADMIN,ORGANISATION"
+                            data-ng-click="participant.editNote = !participant.editNote">
+                            <span data-locale-string="administration.participantList.note"></span> <span class="glyphicon glyphicon-edit" style="font-size: 18px;"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <div data-ng-show="!participant.editNote">
+                                <span data-ng-bind-html="participant.note | linkyWithHtml" style="white-space: pre-wrap"></span>
+                            </div>
+                            <div data-ng-show="participant.editNote">
+                                <textarea data-ng-model="participant.note"
+                                          data-error-aware
+                                          data-ng-change="participantList.updateNote(participant)" style="display: block; width: 200px; height: 60px;"
+                                          data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr data-ng-show="participant.showing">
+                <td colspan="100%">
+                    <div style="border-left: 3px solid #0092c5; padding: 10px;">
+                        <a class="action-button" data-restricted-event="ORGANISATOR"
+                           data-ui-sref="administration.event.person-edit({person: participant.person.id})">
+                            <span class="glyphicon glyphicon-user glyphicon-margin"></span>
+                            <span data-locale-string="administration.participantList.editPersonalData"></span>
+                        </a>
+                        <a class="action-button" data-restricted-event="ORGANISATOR"
+                           data-ui-sref="administration.event.participation-edit({participant: participant.id})">
+                            <span class="glyphicon glyphicon-education glyphicon-margin"></span>
+                            <span data-locale-string="administration.participantList.editParticipation"></span>
+                        </a>
+                        <a data-ng-show="participant.active" data-restricted-event="ORGANISATOR"
+                           data-ng-click="participantList.cancelParticipant(participant)"
+                           class="action-button">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <span data-locale-string="administration.participantList.cancelParticipation"></span>
+                        </a>
+                        <a data-ng-show="!participant.active" data-restricted-event="ORGANISATOR"
+                           data-ng-click="participantList.enableParticipant(participant)"
+                           class="action-button">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span data-locale-string="administration.participantList.revokeParticipation"></span>
+                        </a>
+                        <a class="action-button"
+                           data-ui-sref="administration.event.transaction-list({search: participant.person.user.name})">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span>
+                            <span data-locale-string="administration.participantList.transactions"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+</div>

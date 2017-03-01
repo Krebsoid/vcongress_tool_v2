@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<div data-ng-controller="ExternalEventController" style="text-align: center; margin-top: 20px;">
+    <img data-ng-src="{{ event.eventLogo.linkLarge }}"/>
+</div>
+<div id="contact" class="content-padding">
+
+    <div class="form-container">
+        <h1 data-locale-string="contact.headline"></h1>
+        <hr/>
+        <div>
+            <strong>SciSerTec</strong><br/>
+            Dr. Daniel Breuer, Malte Bruweleit<br/>
+            c/o Medizinische Hochschule Hannover (MHH)<br/>
+            Veranstaltungsmanagement OE 0060<br/>
+            Carl-Neuberg-Straße 1<br/>
+            D-30625 Hannover<br/>
+            <br/>
+            <br/>
+            <strong data-locale-string="contact.phone"></strong>: +49 (0) 511 - 10 54 894<br/>
+            <strong data-locale-string="contact.email"></strong>: <a href="mailto:team@scisertec.de">team@scisertec.de</a><br/>
+            <strong>Web</strong>: <a href="http://www.scisertec.de">http://www.scisertec.de</a>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h2 data-locale-string="contact.technicalSupport"></h2>
+        <hr/>
+        <div class="scisertec-info">
+            <div style="display: inline-block; vertical-align: bottom;">
+                <a href="http://www.scisertec.de" target="_blank"><img class="scisertec-logo" src="images/SciSerTec/SciSerTec-Logo.png"></a>
+            </div>
+            <div style="display: inline-block;"><strong>SciSerTec GbR</strong><br>Dr. Daniel Breuer, Malte Bruweleit<br><br>
+                <strong>Web</strong>: <a href="http://www.scisertec.de" target="_blank">http://www.scisertec.de</a><br>
+                <strong data-locale-string="contact.general"></strong>: <a href="mailto:team@scisertec.de" data-ng-transclude="" data-mail-name="team"
+                                                                           data-mail-domain="scisertec.de" class="ng-isolate-scope"><span class="ng-scope">team@scisertec.de</span></a><br/>
+                <strong data-locale-string="contact.technicalSupport"></strong>: <a href="mailto:support@vcongress.de" data-ng-transclude="" data-mail-name="support"
+                                                                                    data-mail-domain="vcongress.de" class="ng-isolate-scope"><span class="ng-scope">support@vcongress.de</span></a>
+            </div>
+        </div>
+    </div>
+
+</div>

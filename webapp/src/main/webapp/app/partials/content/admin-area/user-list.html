@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<div id="user-list">
+    <h1>Benutzerliste</h1>
+
+    <section data-ng-controller="PersonListController as personList">
+
+        <div class="clearfix" style="width: 100%">
+            <div class="control-panel">
+                <div class="only-disabled-container">
+                    <input id="deactivatedMember" data-ng-model="personList.onlyDisabled"
+                           data-ng-change="personList.filterUser()" type="checkbox"/>
+                    <label for="deactivatedMember">
+                        <span class="icon enable" data-tooltip title="Nach deaktivierten Benutzern filtern"></span>
+                    </label>
+                </div>
+                <input class="filter-input" type="text" placeholder="Filter" data-ng-model="personList.stringFilter"/>
+            </div>
+
+            <div class="registration-link" style="float: left; margin: 10px 0 0 0;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    zurück zur Zusammenfassung
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <tr>
+                <th data-ng-click="personList.setOrder('firstName');">
+                    <span class="glyphicon" data-ng-class="personList.headerClass('firstName')"></span>
+                    Vorname
+                    <span class="glyphicon" data-ng-class="personList.headerClass('firstName')"></span>
+                </th>
+                <th data-ng-click="personList.setOrder('lastName');">
+                    <span class="glyphicon" data-ng-class="personList.headerClass('lastName')"></span>
+                    Nachname
+                    <span class="glyphicon" data-ng-class="personList.headerClass('lastName')"></span>
+                </th>
+                <th data-ng-click="personList.setOrder('email');">
+                    <span class="glyphicon" data-ng-class="personList.headerClass('email')"></span>
+                    E-Mail Adresse
+                    <span class="glyphicon" data-ng-class="personList.headerClass('email')"></span>
+                </th>
+                <th>Rollen</th>
+                <th></th>
+            </tr>
+            <tr data-ng-repeat="person in personList.persons
+            | orderBy: personList.getOrder()
+            | filter: personList.getFilter
+            | slice: personList.listBegin : personList.listEnd"
+                data-ng-class="personList.list.markEnabled(person.id)">
+                <td><span data-ng-bind="person.firstName"></span></td>
+                <td><span data-ng-bind="person.lastName"></span></td>
+                <td><span data-ng-bind="person.email"></span></td>
+                <td>
+                    <div style="display: inline-block; margin-right: 2px; vertical-align: top;" data-ng-repeat="relationship in person.user.relationships | orderBy:'id'">
+                        <div data-ng-bind="relationship.group.name" class="badge" style="background: #23527c; font-size: 16px; margin-bottom: 2px;"></div>
+                        <div data-ng-repeat="role in relationship.roles | orderBy:'name'" data-ng-show="role.name != 'USER' && role.name != 'TEILNEHMER'">
+                            <div class="badge" style=" margin-bottom: 1px">
+                                <span data-ng-bind="role.name"></span>
+                                <span class="glyphicon glyphicon-eye-close"
+                                      data-tooltip title="Rolle entfernen"
+                                      data-ng-click="personList.removeRole(person, relationship.group, role.name)"
+                                      style="margin-left: 4px; cursor: pointer;  font-size: 10px"></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="actions">
+                    <span style="font-size: 25px; vertical-align: 2px; cursor: pointer;" class="glyphicon glyphicon-eye-open" data-ng-click="personList.addRoleToPerson(person)"
+                         data-tooltip title="Rolle hinzufügen"></span>
+                    <div class="icon enable" data-ng-hide="person.enabled" data-ng-click="personList.enablePerson(person.id)"
+                         data-tooltip title="Benutzer aktivieren"></div>
+                    <div class="icon remove" data-ng-click="personList.removePerson(person.id)"
+                         data-tooltip title="Benutzer löschen"></div>
+                </td>
+            </tr>
+        </table>
+        <div data-ng-include="'partials/components/admin-area/user-list/role-add-modal.html'" data-ng-if="personList.addRoleModal"></div>
+    </section>
+</div>

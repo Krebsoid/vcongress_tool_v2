@@ -1,0 +1,47 @@
+<div class="modal-overlay"></div>
+<div id="add-role" class="form-container modal-box">
+    <div style="padding: 0 20px;">
+        <span class="headline">Rechnungsadresse ändern für Rechnung:<br/>{{transactionList.transactionToEdit.invoiceNumber}}</span>
+    </div>
+    <hr/>
+    <div class="clearfix" style="width: 100%; padding: 0 20px;">
+        <form>
+            <div class="input-container">
+                <label for="invoiceFullName" data-locale-string="participant.registration.fullName"></label>
+                <input id="invoiceFullName" type="text" data-ng-model="transactionList.transactionToEdit.invoiceAddress.fullName" data-error-aware name="fullName"/>
+            </div>
+            <div class="input-container">
+                <label for="invoiceInstitute" data-locale-string="participant.registration.institute"></label>
+                <input id="invoiceInstitute" type="text" data-ng-model="transactionList.transactionToEdit.invoiceAddress.institute" data-error-aware name="invoiceInstitute"/>
+            </div>
+            <div class="input-container">
+                <label for="invoiceStreet" data-locale-string="participant.registration.street"></label>
+                <input id="invoiceStreet" type="text" data-ng-model="transactionList.transactionToEdit.invoiceAddress.street" data-error-aware name="invoiceStreet"/>
+            </div>
+            <div class="input-container">
+                <label for="invoiceZipCode" data-locale-string="participant.registration.zip"></label>
+                <input id="invoiceZipCode" type="text" data-ng-model="transactionList.transactionToEdit.invoiceAddress.zipCode" data-error-aware name="invoiceZipCode"/>
+            </div>
+            <div class="input-container">
+                <label for="invoiceCity" data-locale-string="participant.registration.city"></label>
+                <input id="invoiceCity" type="text" data-ng-model="transactionList.transactionToEdit.invoiceAddress.city" data-error-aware name="invoiceCity"/>
+            </div>
+            <div class="input-container">
+                <label for="invoiceState" data-locale-string="participant.registration.state"></label>
+                <select id="invoiceState" data-ng-options="state as state for state in states"
+                        data-ng-model="transactionList.transactionToEdit.invoiceAddress.state" data-error-aware name="invoiceState"></select>
+            </div>
+            <div class="input-container">
+                <label for="invoiceCountry" data-locale-string="participant.registration.country"></label>
+                <select id="invoiceCountry" data-ng-options="country.isoCode as country.name for country in transactionList.countries"
+                        data-ng-model="transactionList.transactionToEdit.invoiceAddress.country.isoCode" data-error-aware name="invoiceCountry"></select>
+            </div>
+            <div style="margin-top: 10px">
+                <button class="form-button" style="float: none" data-ng-click="transactionList.cancelModal(transactionList.transactionToEdit)"
+                        data-locale-string="participant.payment.invoiceAddressChange.cancel"></button>
+                <button class="form-button" style="float: none" data-ng-click="transactionList.submitNewInvoiceAddress(transactionList.transactionToEdit)"
+                        data-locale-string="participant.payment.invoiceAddressChange.proceed"></button>
+            </div>
+        </form>
+    </div>
+</div>

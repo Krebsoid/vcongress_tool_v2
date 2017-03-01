@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="EventController">
+    <div class="form-container">
+        <span class="event-creation-headline" data-locale-string="administration.eventCreation.step5.headline"></span>
+        <hr/>
+        <span data-locale-string="administration.eventCreation.step5.description"></span>
+        <hr/>
+        <div data-ng-if="event.eventStatus === 'CREATED'">
+            <form>
+                <div class="input-container" style="text-align: center">
+                    <a class="action-button" data-ng-click="activateTestMode();" data-locale-string="administration.eventCreation.step5.activateTestversion"></a>
+                    <a class="action-button" data-ui-sref="administration.event.license({event: event.identifier})">
+                        <span class="glyphicon glyphicon-euro glyphicon-fix" aria-hidden="true"></span>
+                        <span data-locale-string="administration.eventCreation.step5.publishEvent"></span>
+                    </a>
+                </div>
+            </form>
+        </div>
+        <div data-ng-if="event.eventStatus === 'TESTMODE'">
+            <form>
+                <div class="notification">
+                    <span style="font-size: 20px" data-locale-string="administration.eventCreation.step5.testversion"></span><br/>
+                    <span data-locale-string="administration.eventCreation.step5.testversionDescription"></span><br/>
+                    <span><a data-ng-href="{{ event.link }}" target="_blank" data-locale-string="administration.eventCreation.step5.testversionLink"></a> </span>
+                </div>
+                <div class="input-container" style="text-align: center">
+                    <a class="action-button" data-ng-click="deactivateTestMode();" data-locale-string="administration.eventCreation.step5.deactivateTestversion"></a>
+                    <a class="action-button" data-ui-sref="administration.event.license({event: event.identifier})">
+                        <span class="glyphicon glyphicon-euro glyphicon-fix" aria-hidden="true"></span>
+                        <span data-locale-string="administration.eventCreation.step5.publishEvent"></span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.event-creation.additional-program({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;" data-ui-sref="administration.event.event-editation({event: event.identifier})">
+                <span data-locale-string="administration.eventCreation.step5.proceedToAdministration"></span>
+            </a>
+        </div>
+    </div>
+</div>

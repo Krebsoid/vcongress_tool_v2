@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="PayPalFeatureController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.paypal.headline"></span>
+            <span class="headline" data-ng-show="paypalFeature.tested">
+                <span class="glyphicon glyphicon-ok-sign" style="top: 6px; margin-left: 12px; color: green; font-size: 41px;"></span>
+            </span>
+            <span class="headline" data-ng-show="!paypalFeature.tested">
+                <span class="glyphicon glyphicon-remove-sign" style="top: 6px; margin-left: 12px; color: red; font-size: 41px;"></span>
+            </span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+            <a class="btn btn-danger" style="margin: 10px; position: absolute; right: 9px; top: 7px;" data-tooltip title="PayPal Schnittstelle entfernen"
+               data-ng-click="removeEventFeature(paypalFeature.id);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <p data-locale-string="administration.eventEditation.paypal.description"></p>
+            <div>
+                <hr/>
+                <form>
+                    <div class="input-container">
+                        <label for="username">
+                            <span data-locale-string="administration.eventEditation.paypal.username"></span>
+                        </label>
+                        <input id="username" type="text" data-error-aware data-ng-change="markFormDirty()"
+                               data-ng-model="paypalFeature.username" name="username"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="password">
+                            <span data-locale-string="administration.eventEditation.paypal.password"></span>
+                        </label>
+                        <input id="password" type="text" data-error-aware data-ng-change="markFormDirty()"
+                               data-ng-model="paypalFeature.password" name="password"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="signature">
+                            <span data-locale-string="administration.eventEditation.paypal.signature"></span>
+                        </label>
+                        <input id="signature" type="text" data-error-aware data-ng-change="markFormDirty()"
+                               data-ng-model="paypalFeature.signature" name="signature"/>
+                    </div>
+                    <div class="input-container">
+                        <input class="form-button" data-ng-click="updatePayPalFeature();" type="submit" style="margin-left: 5px;"
+                               value="{{ 'administration.eventEditation.paypal.savePayPalData' | localized }}"/>
+                        <input class="form-button" data-ng-click="testPayPalFeature();" type="submit" data-ng-class="{disabled: formDirty}"
+                               value="{{ 'administration.eventEditation.paypal.testPayPalData' | localized }}"/>
+                    </div>
+                    <div style="width: 100%; text-align: center; padding: 20px 0;">
+                        <span style="color: green; font-weight: bold;" data-ng-show="editationSuccessful">
+                            <span data-locale-string="administration.eventEditation.paypal.successful"></span>
+                        </span>
+                        <span style="color: green; font-weight: bold;" data-ng-show="testDone && testSuccessful">
+                            <span data-locale-string="administration.eventEditation.paypal.testSuccessful"></span>
+                        </span>
+                        <span style="color: red; font-weight: bold;" data-ng-show="testDone && !testSuccessful">
+                            <span data-locale-string="administration.eventEditation.paypal.testError"></span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

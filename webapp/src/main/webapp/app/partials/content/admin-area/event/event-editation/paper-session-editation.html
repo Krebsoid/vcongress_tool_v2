@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="SessionFeatureController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Sessions</span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+            <a class="btn btn-danger" style="margin: 10px; position: absolute; right: 9px; top: 7px;" data-tooltip title="Sessionfunktionalität entfernen"
+               data-ng-click="removeEventFeature(paperFeature.id);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <div>
+                <table class="table table-striped cancellation-table">
+                    <tr>
+                        <th style="text-align: center;">Bezeichnung der Session</th>
+                        <th style="text-align: center">
+                            <a class="btn btn-success" data-tooltip title="Session hinzufügen" data-ng-click="addSession()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr data-ng-repeat="session in paperFeature.sessions | orderBy:'id' ">
+                        <td class="participant-status">
+                            <div data-ng-show="!session.editMode">
+                                <span data-ng-bind="session.name"></span>
+                            </div>
+                            <div data-ng-show="session.editMode">
+                                <input type="text" data-error-aware data-ng-model="session.name"
+                                       data-focus-input="session.editMode"
+                                       data-on-enter="updateSession(session)">
+                            </div>
+                        </td>
+                        <td class="interactions">
+                            <div data-ng-show="!session.editMode">
+                                <a class="btn btn-info" data-tooltip title="Session bearbeiten" data-ng-click="session.editMode = !session.editMode">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip title="Session löschen" data-ng-click="removeSession(session)">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                            <div data-ng-show="session.editMode">
+                                <a class="btn btn-success" data-tooltip title="Session speichern" data-ng-click="updateSession(session)">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip title="Bearbeitung abbrechen" data-ng-click="session.editMode = !session.editMode">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

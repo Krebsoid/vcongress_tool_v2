@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<div id="event-list" data-ng-controller="EventListController as eventList">
+    <h1>Veranstaltungsliste</h1>
+
+    <section>
+
+        <div class="clearfix" style="width: 100%">
+            <div class="control-panel">
+                <input class="filter-input" type="text" placeholder="Filter" data-ng-model="eventList.stringFilter"/>
+            </div>
+
+            <div class="registration-link" style="float: left; margin: 10px 0 0 0;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    zurück zur Zusammenfassung
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <tr>
+                <th data-ng-click="eventList.setOrder('event.name');">
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.name')"></span>
+                    Name
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.name')"></span>
+                </th>
+                <th data-ng-click="eventList.setOrder('event.startDate');">
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.startDate')"></span>
+                    Start-Datum
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.startDate')"></span>
+                </th>
+                <th data-ng-click="eventList.setOrder('event.regNumber');">
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.regNumber')"></span>
+                    Registrierungsnummer d. VA
+                    <span class="glyphicon" data-ng-class="eventList.headerClass('event.regNumber')"></span>
+                </th>
+                <th></th>
+            </tr>
+            <tr data-ng-repeat="event in eventList.events
+            | orderBy: eventList.getOrder()
+            | filter: eventList.getFilter
+            | slice: eventList.listBegin : eventList.listEnd">
+                <td><span data-ng-bind="event.name"></span></td>
+                <td><span data-ng-bind="event.startDate"></span></td>
+                <td><span data-ng-bind="event.regNumber"></span></td>
+                <td class="actions">
+
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>

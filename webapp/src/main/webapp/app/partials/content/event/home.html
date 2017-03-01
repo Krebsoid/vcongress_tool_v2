@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<div data-ng-controller="ExternalEventController" style="text-align: center; margin-top: 20px;">
+    <img data-ng-src="{{ event.eventLogo.linkLarge }}"/>
+</div>
+<div id="event-home" class="content-padding" data-ng-class="{testmode : event.eventStatus === 'TESTMODE'}"
+     data-ng-controller="EventInfoController">
+
+    <div class="form-container">
+        <div data-event-info="event"></div>
+        <hr/>
+        <div class="home-container-wrapper">
+            <div class="home-content" data-locale-string="participant.home.welcome"></div>
+            <div data-ng-if="!!eventService.getNotification('INDEX') && event.eventStatus === 'CLOSED'">
+                <hr/>
+                <div style="position: relative; min-height: 60px;">
+                    <div style="position: absolute; left: 10px; top: 0;">
+                        <span class="glyphicon glyphicon-alert" style="font-size: 40px; color: red"></span>
+                    </div>
+                    <span style="white-space: pre-wrap; padding: 0 70px; display: inline-block" data-ng-bind-html="eventService.getNotification('INDEX') | linkyWithHtml"></span>
+                    <div style="position: absolute; right: 10px; top: 0;">
+                        <span class="glyphicon glyphicon-alert" style="font-size: 40px; color: red"></span>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="home-container" data-ng-controller="RegistrationDeadlineController">
+                <a data-ui-sref="event.registration" data-ng-if="!isRegistrationDeadline() && event.eventStatus != 'CLOSED'">
+                    <span class="large-text">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        <span data-locale-string="participant.home.registration.label1"></span>
+                    </span>
+                    <br/>
+                    <span data-locale-string="participant.home.registration.label2"></span>
+                </a>
+                <a class="disabled" data-ng-if="isRegistrationDeadline() || event.eventStatus == 'CLOSED'">
+                    <span class="large-text">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        <span data-locale-string="participant.home.registration.label1Disabled"></span>
+                    </span>
+                    <br/>
+                    <span data-locale-string="participant.home.registration.label2Disabled"></span>
+                </a>
+            </div>
+            <div class="home-container" data-ng-show="!event.shortVersion">
+                <a data-ui-sref="event.login">
+                    <span class="large-text">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        <span data-locale-string="participant.home.login.label1"></span>
+                    </span>
+                    <br/>
+                    <span data-locale-string="participant.home.login.label2"></span>
+                </a>
+            </div>
+            <div class="home-container" data-ng-show="!event.shortVersion">
+                <a data-ui-sref="event.password-recovery-init" data-locale-string="participant.home.passwordRecovery"></a>
+            </div>
+            <div class="home-content margin-top">
+                <span data-locale-string="participant.home.greeting"></span>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<div id="participant-list" data-ng-controller="TransactionListController as transactionList">
+    <h1>
+        <span data-locale-string="administration.transactionList.headline"></span>
+        <a data-ng-href="{{ '/app/api/transaction/' + transactionList.event.identifier + '/export.csv' }}"
+           target="_blank" style="text-decoration: none;">
+            <img src="images/elements/form/csv-icon.png" data-tooltip data-original-title="{{ 'administration.transactionList.exportAsCSV' | localized}}"/>
+        </a>
+        <a data-ng-href="{{ '/app/api/invoice/book/' + transactionList.event.identifier }}"
+           target="_blank" style="text-decoration: none;">
+            <img src="images/elements/form/pdf-icon.png" data-tooltip data-original-title="{{ 'administration.transactionList.exportInvoiceBook' | localized}}"/>
+        </a>
+    </h1>
+    <h2 data-ng-bind="transactionList.event.name"></h2>
+
+    <section class="participant-list-area">
+
+        <div class="clearfix" style="width: 100%">
+            <div class="control-panel">
+                <div style="display: inline; margin-right: 5px;">
+                    <select data-ng-model="transactionList.config.limit">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                    <span style="margin-left: 5px;" data-locale-string="common.of"></span>
+                </div>
+                <div style="display: inline; margin-right: 15px;">
+                    {{ transactionList.visibleTransactions }} <span data-locale-string="common.results"></span>
+                </div>
+                <div class="filter-input-icon">
+                    <label for="search">
+                        <span class="glyphicon glyphicon-search" style="margin-right: 3px;"></span>
+                    </label>
+                </div>
+                <input id="search" class="filter-input" type="text" placeholder="{{ 'common.whatDoYouSearch' | localized }}"
+                       data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                       data-ng-model="transactionList.stringFilter"/>
+                <div style="position: relative; display: inline">
+                    <a class="btn" data-ng-click="transactionList.columnPanel = !transactionList.columnPanel"><span class="glyphicon glyphicon-th-list" style="margin-right: 3px;"></span><span data-locale-string="common.columnVisibility"></span></a>
+                    <div class="column-panel" data-ng-show="transactionList.columnPanel">
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.invoiceNumber"/>
+                            <span data-locale-string="administration.transactionList.invoiceNumber"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.firstName"/>
+                            <span data-locale-string="administration.participantList.firstName"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.lastName"/>
+                            <span data-locale-string="administration.participantList.lastName"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.institute"/>
+                            <span data-locale-string="administration.transactionList.institution"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.city"/>
+                            <span data-locale-string="administration.participantList.city"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.priceWithoutTax"/>
+                            <span data-locale-string="administration.transactionList.price"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.tax"/>
+                            <span data-locale-string="administration.transactionList.tax"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.price"/>
+                            <span data-locale-string="administration.transactionList.sum"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.cancellationPercentage"/>
+                            <span data-locale-string="administration.transactionList.cancellationPercentage"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.paypalTransactionId"/>
+                            <span data-locale-string="administration.transactionList.paypal"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.transactionStatus"/>
+                            <span data-locale-string="administration.transactionList.status"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.paymentMethod"/>
+                            <span data-locale-string="administration.transactionList.paymentMethod"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.invoiceDate"/>
+                            <span data-locale-string="administration.transactionList.invoiceDate"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.dateToPay"/>
+                            <span data-locale-string="administration.transactionList.baseDate"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="transactionList.config.view.dateOfPayment"/>
+                            <span data-locale-string="administration.transactionList.payDate"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-link" style="float: left; margin: 10px 0 0 0;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.backToSummary"></span>
+                </a>
+            </div>
+        </div>
+
+        <div style="overflow-x: scroll; width: 100%; max-width: 100%;">
+        <table class="table participant-list">
+            <tr>
+                <th data-ng-click="transactionList.setOrder('invoiceNumber');" data-ng-show="transactionList.config.view.invoiceNumber">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('invoiceNumber')"></span>
+                    <span data-locale-string="administration.transactionList.invoiceNumber"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('invoiceNumber')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('person.firstName');" data-ng-show="transactionList.config.view.firstName">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.firstName')"></span>
+                    <span data-locale-string="administration.participantList.firstName"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.firstName')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('person.lastName');" data-ng-show="transactionList.config.view.lastName">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.lastName')"></span>
+                    <span data-locale-string="administration.participantList.lastName"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.lastName')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('person.occupation.institute');" data-ng-show="transactionList.config.view.institute">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.occupation.institute')"></span>
+                    <span data-locale-string="administration.transactionList.institution"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.occupation.institute')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('person.address.city');" data-ng-show="transactionList.config.view.city">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.address.city')"></span>
+                    <span data-locale-string="administration.participantList.city"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('person.address.city')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.priceWithoutTax');" data-ng-show="transactionList.config.view.priceWithoutTax">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.priceWithoutTax')"></span>
+                    <span data-locale-string="administration.transactionList.price"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.priceWithoutTax')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.tax');" data-ng-show="transactionList.config.view.tax">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.tax')"></span>
+                    <span data-locale-string="administration.transactionList.tax"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.tax')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.price');" data-ng-show="transactionList.config.view.price">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.price')"></span>
+                    <span data-locale-string="administration.transactionList.sum"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.price')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.cancellationPercentage');" data-ng-show="transactionList.config.view.cancellationPercentage">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.cancellationPercentage')"></span>
+                    <span data-locale-string="administration.transactionList.cancellationPercentage"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.cancellationPercentage')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.transactionStatus');" data-ng-show="transactionList.config.view.transactionStatus">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.transactionStatus')"></span>
+                    <span data-locale-string="administration.transactionList.status"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.transactionStatus')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.paymentMethod');" data-ng-show="transactionList.config.view.paymentMethod">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.paymentMethod')"></span>
+                    <span data-locale-string="administration.transactionList.paymentMethod"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.paymentMethod')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.dateOfPayment');" data-ng-show="transactionList.config.view.dateOfPayment">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.dateOfPayment')"></span>
+                    <span data-locale-string="administration.transactionList.payDate"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.dateOfPayment')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('invoiceDate');" data-ng-show="transactionList.config.view.invoiceDate">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('invoiceDate')"></span>
+                    <span data-locale-string="administration.transactionList.invoiceDate"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('invoiceDate')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('dateToPay');" data-ng-show="transactionList.config.view.dateToPay">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('dateToPay')"></span>
+                    <span data-locale-string="administration.transactionList.baseDate"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('dateToPay')"></span>
+                </th>
+                <th data-ng-click="transactionList.setOrder('transaction.paypalTransactionId');" data-ng-show="transactionList.config.view.paypalTransactionId">
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.paypalTransactionId')"></span>
+                    <span data-locale-string="administration.transactionList.paypal"></span>
+                    <span class="glyphicon" data-ng-class="transactionList.headerClass('transaction.paypalTransactionId')"></span>
+                </th>
+            </tr>
+            <tbody data-ng-repeat="transaction in transactionList.transactions
+            | orderBy: transactionList.getOrder()
+            | filter: transactionList.getFilter
+            | slice: transactionList.listBegin : transactionList.config.limit">
+            <tr data-ng-click="transaction.showing = !transaction.showing"
+                data-ng-class="{opened : transaction.showing, completed : transaction.transaction.transactionStatus == 'COMPLETED'}"
+                ng-class-odd="'odd'" ng-class-even="'even'" class="{{ transaction.transaction.transactionStatus }}">
+                <td data-ng-show="transactionList.config.view.invoiceNumber"><span data-ng-bind="transaction.invoiceNumber"></span></td>
+                <td data-ng-show="transactionList.config.view.firstName"><span data-ng-bind="transaction.person.firstName"></span></td>
+                <td data-ng-show="transactionList.config.view.lastName"><span data-ng-bind="transaction.person.lastName"></span></td>
+                <td data-ng-show="transactionList.config.view.institute"><span data-ng-bind="transaction.person.occupation.institute"></span></td>
+                <td data-ng-show="transactionList.config.view.city"><span data-ng-bind="transaction.person.address.city"></span></td>
+                <td class="{{ transaction.transaction.transactionStatus }}" data-ng-show="transactionList.config.view.priceWithoutTax"><span data-ng-bind="transaction.transaction.priceWithoutTax | currency"></span></td>
+                <td class="{{ transaction.transaction.transactionStatus }}" data-ng-show="transactionList.config.view.tax"><span data-ng-bind="transaction.transaction.tax | currency"></span></td>
+                <td class="{{ transaction.transaction.transactionStatus }}" data-ng-show="transactionList.config.view.price"><span data-ng-bind="transaction.transaction.price | currency"></span></td>
+                <td data-ng-show="transactionList.config.view.cancellationPercentage"><span data-ng-bind="transaction.transaction.cancellationPercentage"></span> %</td>
+                <td data-ng-show="transactionList.config.view.transactionStatus"><span data-ng-bind="transaction.transaction.transactionStatusTranslated"></span></td>
+                <td data-ng-show="transactionList.config.view.paymentMethod"><span data-ng-bind="transaction.transaction.paymentMethod"></span></td>
+                <td data-ng-show="transactionList.config.view.dateOfPayment"><span data-ng-bind="transaction.transaction.dateOfPayment | date"></span></td>
+                <td data-ng-show="transactionList.config.view.invoiceDate"><span data-ng-bind="transaction.invoiceDate | date"></span></td>
+                <td data-ng-show="transactionList.config.view.dateToPay"><span data-ng-bind="transaction.dateToPay | date"></span></td>
+                <td data-ng-show="transactionList.config.view.paypalTransactionId"><span data-ng-bind="transaction.transaction.paypalTransactionId"></span></td>
+            </tr>
+            <tr data-ng-show="transaction.showing">
+                <td colspan="100%">
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.transactionList.participant"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>{{ transaction.person.title }} {{ transaction.person.firstName }} {{transaction.person.lastName }}</div>
+                        <div>{{ transaction.person.address.street }}</div>
+                        <div>{{ transaction.person.address.zipCode }} {{ transaction.person.address.city }}</div>
+                        <div>{{ transaction.person.address.country.name }}</div>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.emailShort"></span>
+                            </span>
+                            <span data-ng-bind-html="transaction.person.user.name | linky"></span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.phone"></span>
+                            </span>
+                            <span>{{ transaction.person.contact.phone }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">
+                                <span data-locale-string="administration.participantList.fax"></span>
+                            </span>
+                            <span>{{ transaction.person.contact.fax }}</span>
+                        </div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.transactionList.invoiceAddress"></span>
+                        </h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>{{ transaction.invoiceAddress.institute }}</div>
+                        <div>{{ transaction.invoiceAddress.fullName }}</div>
+                        <div>{{ transaction.invoiceAddress.street }}</div>
+                        <div>{{ transaction.invoiceAddress.zipCode }} {{ transaction.invoiceAddress.city }}</div>
+                        <div>{{ transaction.invoiceAddress.country.name }}</div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">
+                            <span data-locale-string="administration.transactionList.items"></span>
+                        </h2>
+                        <table class="table table-striped participant-list" style="margin-top: 5px;">
+                            <tr>
+                                <th><span data-locale-string="common.name"></span></th>
+                                <th><span data-locale-string="common.amount"></span></th>
+                                <th><span data-locale-string="common.price"></span></th>
+                                <th><span data-locale-string="common.tax"></span></th>
+                                <th><span data-locale-string="common.sum"></span></th>
+                            </tr>
+                            <tr data-ng-click="transactionList.markForCancel(item)"
+                                data-ng-class="{markedForCancel : item.markedForCancel, cancelled : item.cancelled}" class="clickable"
+                                data-ng-repeat="item in transaction.transaction.paymentItemContainer | orderBy:'price':true ">
+                                <td>{{ item.paymentItem.name }}</td>
+                                <td>{{ item.amount }}</td>
+                                <td>{{ item.priceWithoutTax | currency }}</td>
+                                <td>{{ item.tax | currency }}</td>
+                                <td>{{ item.price | currency }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr data-ng-show="transaction.showing">
+                <td colspan="100%">
+                    <div style="border-left: 3px solid #0092c5; padding: 10px;">
+                        <a class="action-button"
+                           data-ng-show="transaction.transaction.transactionStatus != 'CREDIT' && transaction.transaction.transactionStatus != 'PENDING'"
+                           data-ng-href="app/api/transaction/{{transaction.transaction.id}}/invoice" target="_blank">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span><span data-locale-string="participant.payment.transaction.printInvoice"></span>
+                        </a>
+                        <a class="action-button"
+                           data-ng-show="transaction.transaction.transactionStatus == 'CREDIT'"
+                           data-ng-href="app/api/transaction/{{transaction.transaction.id}}/invoice" target="_blank">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span><span data-locale-string="participant.payment.transaction.printCredit"></span>
+                        </a>
+                        <a class="action-button" data-restricted-event="ORGANISATOR"
+                           data-ng-show="transaction.transaction.transactionStatus == 'PENDING'"
+                           data-ng-click="transactionList.generateInvoice(transaction)">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span>
+                            <span data-locale-string="administration.transactionList.generateInvoice"></span>
+                        </a>
+                        <a data-ng-show="transactionList.isCompletable(transaction)" data-restricted-event="ORGANISATOR"
+                             data-ng-click="transactionList.completeTransaction(transaction)"
+                             class="action-button">
+                            <span data-locale-string="administration.transactionList.completePayment"></span>
+                        </a>
+                        <a data-ng-show="transactionList.isChangable(transaction)" data-restricted-event="ORGANISATOR"
+                           data-ng-click="transactionList.changeInvoiceAddress(transaction)"
+                             class="action-button">
+                            <span data-locale-string="administration.transactionList.changeInvoiceAddress"></span>
+                        </a>
+                        <a data-ng-show="transactionList.isCancellable(transaction)" data-restricted-event="ORGANISATOR"
+                             data-ng-click="transactionList.cancelTransactionPartly(transaction)"
+                             class="action-button" data-ng-class="{disabled: transactionList.numberOfMarkedItems(transaction) == 0}">
+                            <span data-locale-string="administration.transactionList.cancelPartly"></span>
+                            <span data-locale-string="common.of"></span> {{ transactionList.numberOfMarkedItems(transaction); }}
+                            <span data-locale-string="administration.transactionList.items"></span>
+                        </a>
+                        <a data-ng-show="transactionList.isCancellable(transaction)" data-restricted-event="ORGANISATOR"
+                             data-ng-click="transactionList.cancelTransactionComplete(transaction)"
+                             class="action-button">
+                            <span data-locale-string="administration.transactionList.cancelCompletely"></span>
+                        </a>
+                        <span data-ng-show="transactionList.isCancellable(transaction)">
+                            <span class="badge badge-black" style="font-size: 19px; cursor: pointer;"
+                                  data-tooltip title="Aktuelle Stornierungsgebühr. Zum Anpassen bitte anklicken und neuen Wert eintragen."
+                                  data-ng-hide="transaction.overwriteCancellationFee" data-ng-click="transaction.overwriteCancellationFee = true">
+                                {{ transaction.cancellationPercentage }} %
+                            </span>
+                            <span data-ng-show="transaction.overwriteCancellationFee">
+                                <input type="number" style="width: 44px"
+                                       data-ng-model="transaction.newCancellationPercentage"/>
+                                <span class="glyphicon glyphicon-remove" style="cursor: pointer;"
+                                      data-tooltip title="Angepasste Stornierungsgebühr verwerfen und den Originalprozentsatz wiederherstellen."
+                                      data-ng-click="transaction.overwriteCancellationFee = false; transaction.newCancellationPercentage = undefined;"></span>
+                            </span>
+                        </span>
+                        <a class="action-button"
+                           data-ui-sref="administration.event.participant-list({search: transaction.person.user.name})">
+                            <span class="glyphicon glyphicon-list glyphicon-margin"></span>
+                            <span data-locale-string="administration.transactionList.participant"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+    <div data-ng-include="'partials/components/admin-area/transaction-list/invoice-address-change-modal.html'" data-ng-if="transactionList.invoiceChangeModal"></div>
+</div>

@@ -1,0 +1,29 @@
+<div class="modal-overlay"></div>
+<div id="add-role" class="form-container modal-box">
+    <div style="padding: 0 20px;">
+        <span class="headline">Rolle vergeben für:<br/>{{ personList.personToEdit.firstName + ' ' + personList.personToEdit.lastName}}</span>
+    </div>
+    <hr/>
+    <div class="clearfix" style="width: 100%; padding: 0 20px;">
+        <form>
+            <div class="input-container">
+                <label for="group">Gruppe:</label>
+                <select id="group" data-ng-options="group as group.name for group in personList.groups | orderBy:'name'"
+                        data-ng-model="permission.group" data-error-aware name="group"></select>
+            </div>
+            <div class="input-container">
+                <label for="role">Rolle:</label>
+                <select id="role" data-ng-options="role for role in permission.group.availableRoles"
+                        data-ng-model="permission.role" data-error-aware name="role"></select>
+            </div>
+            <div style="margin-top: 10px">
+                <button class="form-button" style="float: none" data-ng-click="personList.addRoleModal = false">
+                    abbrechen
+                </button>
+                <button class="form-button" style="float: none" data-ng-click="personList.addRole(personList.personToEdit, permission.group, permission.role)">
+                    Rolle hinzufügen und speichern
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

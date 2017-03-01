@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<div id="participant-list" data-ng-controller="CustomerListController as customerList">
+    <h1>
+        Kundenliste
+    </h1>
+
+    <section class="participant-list-area">
+
+        <div class="clearfix" style="width: 100%">
+            <div class="control-panel">
+                <div style="display: inline; margin-right: 5px;">
+                    <select data-ng-model="customerList.config.limit">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                    <span style="margin-left: 5px;">von</span>
+                </div>
+                <div style="display: inline; margin-right: 15px;">
+                    {{ customerList.visibleParticipants }} Ergebnissen
+                </div>
+                <div class="filter-input-icon">
+                    <label for="search">
+                        <span class="glyphicon glyphicon-search" style="margin-right: 3px;"></span>
+                    </label>
+                </div>
+                <input id="search" class="filter-input" type="text" placeholder="Was suchen Sie?"
+                       data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                       data-ng-model="customerList.stringFilter"/>
+                <div style="position: relative; display: inline">
+                    <a class="btn" data-ng-click="customerList.columnPanel = !customerList.columnPanel"><span class="glyphicon glyphicon-th-list" style="margin-right: 3px;"></span><span>Spaltensichtbarkeit</span></a>
+                    <div class="column-panel" data-ng-show="customerList.columnPanel">
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.title"/>
+                            Titel
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.firstName"/>
+                            Vorname
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.lastName"/>
+                            Nachname
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.gender"/>
+                            Geschlecht
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.street"/>
+                            Straße
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.city"/>
+                            Stadt
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.zipCode"/>
+                            PLZ
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.state"/>
+                            Bundesland
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.country"/>
+                            Land
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.dateOfRegistration"/>
+                            Registrierung
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.activated"/>
+                            Aktiviert
+                        </label>
+                        <label>
+                            <input type="checkbox" data-ng-model="customerList.config.view.email"/>
+                            E-Mail Adresse
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-link" style="float: left; margin: 10px 0 0 0;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    zurück zur Zusammenfassung
+                </a>
+            </div>
+        </div>
+
+        <div style="overflow-x: scroll; width: 100%; max-width: 100%;">
+        <table class="table table-striped participant-list">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th data-ng-click="customerList.setOrder('person.title');" data-ng-show="customerList.config.view.title">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.title')"></span>
+                    Titel
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.title')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.firstName');" data-ng-show="customerList.config.view.firstName">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.firstName')"></span>
+                    Vorname
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.firstName')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.lastName');" data-ng-show="customerList.config.view.lastName">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.lastName')"></span>
+                    Nachname
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.lastName')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.gender');" data-ng-show="customerList.config.view.gender">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.gender')"></span>
+                    M/F
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.gender')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.address.street');" data-ng-show="customerList.config.view.street">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.street')"></span>
+                    Straße
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.street')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.address.city');" data-ng-show="customerList.config.view.city">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.city')"></span>
+                    Stadt
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.city')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.address.zipCode');" data-ng-show="customerList.config.view.zipCode">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.zipCode')"></span>
+                    PLZ
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.zipCode')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.address.state');" data-ng-show="customerList.config.view.state">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.state')"></span>
+                    Bundesland
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.state')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.address.country.name');" data-ng-show="customerList.config.view.country">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.country.name')"></span>
+                    Land
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.address.country.name')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('dateOfRegistration');" data-ng-show="customerList.config.view.dateOfRegistration">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('dateOfRegistration')"></span>
+                    Registrierung
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('dateOfRegistration')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('activated');" data-ng-show="customerList.config.view.activated">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('activated')"></span>
+                    Aktiviert
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('activated')"></span>
+                </th>
+                <th data-ng-click="customerList.setOrder('person.user.name');" data-ng-show="customerList.config.view.email">
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.user.name')"></span>
+                    E-Mail Adresse
+                    <span class="glyphicon" data-ng-class="customerList.headerClass('person.user.name')"></span>
+                </th>
+            </tr>
+            <tbody data-ng-repeat="customer in customerList.customers
+            | orderBy: customerList.getOrder()
+            | filter: customerList.getFilter
+            | slice: customerList.listBegin : customerList.config.limit">
+            <tr data-ng-click="customer.showing = !customer.showing"
+                data-ng-class="{opened : customer.showing }"
+                ng-class-odd="'odd'" ng-class-even="'even'">
+                <td><span data-ng-bind="$index+1"></span></td>
+                <td data-ng-show="customerList.config.view.title"><span data-ng-bind="customer.person.title"></span></td>
+                <td data-ng-show="customerList.config.view.firstName"><span data-ng-bind="customer.person.firstName"></span></td>
+                <td data-ng-show="customerList.config.view.lastName"><span data-ng-bind="customer.person.lastName"></span></td>
+                <td data-ng-show="customerList.config.view.gender">
+                    <div class="female" data-ng-if="customer.person.gender == 'FEMALE'"></div>
+                    <div class="male" data-ng-if="customer.person.gender == 'MALE'"></div>
+                </td>
+                <td data-ng-show="customerList.config.view.street"><span data-ng-bind="customer.person.address.street"></span></td>
+                <td data-ng-show="customerList.config.view.city"><span data-ng-bind="customer.person.address.city"></span></td>
+                <td data-ng-show="customerList.config.view.zipCode"><span data-ng-bind="customer.person.address.zipCode"></span></td>
+                <td data-ng-show="customerList.config.view.state"><span data-ng-bind="customer.person.address.state"></span></td>
+                <td data-ng-show="customerList.config.view.country"><span data-ng-bind="customer.person.address.country.name"></span></td>
+                <td data-ng-show="customerList.config.view.dateOfRegistration"><span data-ng-bind="customer.dateOfRegistration"></span></td>
+                <td data-ng-show="customerList.config.view.activated">
+                    <span data-ng-if="!customer.activated" style="text-align: center"><span class="glyphicon glyphicon-ok-sign green"></span> </span>
+                    <span data-ng-if="customer.activated" style="text-align: center"><span class="glyphicon glyphicon-remove-sign red"></span></span>
+                </td>
+                <td data-ng-show="customerList.config.view.email"><a href="mailto:{{customer.person.user.name}}" data-ng-bind="customer.person.user.name"></a></td>
+            </tr>
+            <tr data-ng-show="customer.showing">
+                <td colspan="100%">
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">Persönliche Daten</h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>{{ customer.person.title }}{{ customer.person.firstName }} {{ customer.person.lastName }}</div>
+                        <div>{{ customer.person.address.street }}</div>
+                        <div>{{ customer.person.address.zipCode }} {{ customer.person.address.city }}</div>
+                        <div>{{ customer.person.address.country.name }}</div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">Kontakt</h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">E-Mail:</span>
+                            <span data-ng-bind-html="customer.person.user.name | linky"></span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">Telefon:</span>
+                            <span>{{ customer.person.contact.phone }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 60px; display: inline-block;">Fax:</span>
+                            <span>{{ customer.person.contact.fax }}</span>
+                        </div>
+                    </div>
+                    <div style="display: inline-block; padding: 10px; vertical-align: top; border-left: 3px solid #0092c5;">
+                        <h2 style="text-align: left; margin-top: 0;">Beschäftigung</h2>
+                        <hr style="margin: 5px 0"/>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">Institut:</span>
+                            <span>{{ customer.person.occupation.institute }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">Abteilung:</span>
+                            <span>{{ customer.person.occupation.department }}</span>
+                        </div>
+                        <div>
+                            <span style="width: 70px; display: inline-block;">Position:</span>
+                            <span>{{ customer.person.occupation.position }}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr data-ng-show="customer.showing">
+                <td colspan="100%">
+                    <div style="border-left: 3px solid #0092c5; padding: 10px;">
+                        <a class="action-button"
+                           data-ui-sref="administration.event.person-edit({person: customer.person.id})">
+                            <span class="glyphicon glyphicon-user glyphicon-margin"></span> Persönliche Daten bearbeiten
+                        </a>
+                        <a class="action-button"
+                           data-ui-sref="administration.order-list-admin({search: customer.person.user.name})">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span> Transaktionen
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+</div>

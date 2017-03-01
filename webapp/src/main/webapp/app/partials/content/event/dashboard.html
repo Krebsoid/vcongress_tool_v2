@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<div id="event-dashboard" class="content-padding" data-ng-controller="ParticipationInfoController">
+    <div class="form-container">
+        <span class="headline" data-locale-string="participant.dashboard.headline"></span>
+        <div data-event-info="event"></div>
+        <hr/>
+        <div>
+            <div class="dashboard-headline">
+                <span class="dashboard-button">
+                    <a ui-sref="event.intern.participation">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <span data-locale-string="participant.dashboard.participation"></span>
+                    </a>
+                </span>
+                <span data-locale-string="participant.dashboard.participationLabel"></span>
+            </div>
+            <div class="dashboard-headline" data-ng-if="!paid()">
+                <span class="dashboard-button">
+                    <a ui-sref="event.intern.payment">
+                        <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+                        <span data-locale-string="participant.dashboard.payment"></span>
+                    </a>
+                </span>
+                <span data-locale-string="participant.dashboard.paymentLabel"></span>
+            </div>
+        </div>
+        <hr/>
+        <div class="dashboard-registration-complete" data-ng-if="isRegistrationComplete()">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span data-locale-string="participant.dashboard.registrationComplete"></span>
+        </div>
+        <div class="dashboard-registration-incomplete" data-ng-if="!isRegistrationComplete()">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span data-locale-string="participant.dashboard.registrationIncomplete"></span>
+        </div>
+        <hr/>
+        <h1 data-locale-string="participant.dashboard.status"></h1>
+        <br/>
+        <div class="dashboard-container">
+            <table class="dashboard-item">
+                <tr>
+                    <td class="icon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </td>
+                    <td class="dashboard-topic">
+                        <span data-locale-string="participant.dashboard.registered"></span>
+                    </td>
+                    <td>
+                        <span data-ng-bind="participant.dateOfRegistration | date"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="dashboard-container">
+            <table class="dashboard-item">
+                <tr>
+                    <td class="icon">
+                        <span class="glyphicon glyphicon-euro"></span>
+                    </td>
+                    <td class="dashboard-topic">
+                        <span data-locale-string="participant.dashboard.fee"></span>
+                    </td>
+                    <td>
+                        <span class="badge money" data-ng-bind="cost() | currency"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon">
+                        <span class="glyphicon glyphicon-euro"></span>
+                    </td>
+                    <td>
+                        <span class="dashboard-topic" data-locale-string="participant.dashboard.paid"></span>
+                    </td>
+                    <td>
+                        <span data-ng-if="!paid()" class="glyphicon glyphicon-remove-sign red"></span>
+                        <span data-ng-if="paid()" class="glyphicon glyphicon-ok-sign green"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="dashboard-container">
+            <table class="dashboard-item">
+                <tr data-ng-repeat="selection in participant.eventSelections">
+                    <td class="icon">
+                        <span class="glyphicon glyphicon-briefcase"></span>
+                    </td>
+                    <td class="dashboard-topic">
+                        <div data-ng-if="selection.eventFeature.eventFeatureType === 'PARTICIPANT_STATUS' || selection.eventFeature.eventFeatureType === 'SELECTION'">
+                            <span data-ng-bind="selection.eventFeature.label"></span>
+                        </div>
+                        <div data-ng-if="selection.eventFeature.eventFeatureType === 'DINNER'">
+                            <span data-ng-bind="selection.eventFeature.eventItem.name"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div data-ng-if="selection.eventFeature.eventFeatureType === 'PARTICIPANT_STATUS' || selection.eventFeature.eventFeatureType === 'SELECTION'">
+                            <span data-ng-bind="selection.value"></span>
+                        </div>
+                        <div data-ng-if="selection.eventFeature.eventFeatureType === 'DINNER'">
+                            <span data-ng-if="selection.checked"><span class="glyphicon glyphicon-ok-sign green"></span> </span>
+                            <span data-ng-if="!selection.checked"><span class="glyphicon glyphicon-remove-sign red"></span></span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div data-ng-include="'partials/components/event/participation/register-another-participant.html'" data-ng-if="registerAnotherParticipantModal"></div>
+</div>

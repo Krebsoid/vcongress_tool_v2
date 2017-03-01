@@ -1,0 +1,65 @@
+<div class="modal-overlay" data-ng-show="invoiceAddressCheckModal"></div>
+<div class="form-container modal-box modal-container" data-ng-show="invoiceAddressCheckModal">
+    <div style="padding: 0 20px;">
+        <span class="headline" data-locale-string="participant.payment.invoiceAddressChange.headline"></span>
+    </div>
+    <hr/>
+    <div class="clearfix" style="width: 100%; padding: 0 20px;">
+        <form>
+            <div data-ng-show="!differentInvoiceAddress">
+                <p style="text-align: left;">
+                    {{ person.invoiceAddress.fullName }} <br/>
+                    {{ person.invoiceAddress.street }} <br/>
+                    {{ person.invoiceAddress.zipCode }} {{ person.invoiceAddress.city }} <br/>
+                    {{ person.invoiceAddress.country.name }}
+                </p>
+            </div>
+            <div data-ng-show="!differentInvoiceAddress" class="input-container">
+                <label  data-locale-string="participant.payment.invoiceAddressChange.question"></label>
+                <button class="form-button" style="float: none" data-ng-click="proceedPayment()"
+                        data-locale-string="participant.payment.invoiceAddressChange.yes"></button>
+                <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="enableDifferentInvoiceAddress()"
+                        data-locale-string="participant.payment.invoiceAddressChange.no"></button>
+            </div>
+            <div data-ng-if="differentInvoiceAddress" style="margin-top: 10px">
+                <div class="input-container">
+                    <label for="invoiceFullName" data-locale-string="participant.registration.fullName"></label>
+                    <input id="invoiceFullName" type="text" data-ng-model="person.invoiceAddress.fullName" data-error-aware name="fullName"/>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceInstitute" data-locale-string="participant.registration.institute"></label>
+                    <input id="invoiceInstitute" type="text" data-ng-model="person.invoiceAddress.institute" data-error-aware name="invoiceInstitute"/>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceStreet" data-locale-string="participant.registration.street"></label>
+                    <input id="invoiceStreet" type="text" data-ng-model="person.invoiceAddress.street" data-error-aware name="invoiceStreet"/>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceZipCode" data-locale-string="participant.registration.zip"></label>
+                    <input id="invoiceZipCode" type="text" data-ng-model="person.invoiceAddress.zipCode" data-error-aware name="invoiceZipCode"/>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceCity" data-locale-string="participant.registration.city"></label>
+                    <input id="invoiceCity" type="text" data-ng-model="person.invoiceAddress.city" data-error-aware name="invoiceCity"/>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceState" data-locale-string="participant.registration.state"></label>
+                    <select id="invoiceState" data-ng-options="state as state for state in states"
+                            data-ng-model="person.invoiceAddress.state" data-error-aware name="invoiceState"></select>
+                </div>
+                <div class="input-container">
+                    <label for="invoiceCountry" data-locale-string="participant.registration.country"></label>
+                    <select id="invoiceCountry" data-ng-options="country.isoCode as country.name for country in countries"
+                            data-ng-model="person.invoiceAddress.country.isoCode" data-error-aware name="invoiceCountry"></select>
+                </div>
+                <div style="margin-top: 10px">
+                    <button class="form-button" style="float: none" data-ng-click="cancelModal()"
+                            data-locale-string="participant.payment.invoiceAddressChange.cancel"></button>
+                    <button class="form-button" style="float: none" data-ng-click="saveInvoiceAddress(proceedPayment)"
+                            data-locale-string="participant.payment.invoiceAddressChange.proceed"></button>
+                </div>
+            </div>
+            <hr/>
+        </form>
+    </div>
+</div>

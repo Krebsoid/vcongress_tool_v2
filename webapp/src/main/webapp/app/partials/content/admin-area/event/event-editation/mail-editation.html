@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="MailController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.mails.headline"></span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <p data-locale-string="administration.eventEditation.mails.description"></p>
+            <hr data-ng-if="editMode"/>
+            <form>
+                <div data-ng-if="editMode">
+                    <div class="input-container">
+                        <label for="mail" style="width: auto">
+                            <span data-locale-string="administration.eventEditation.mails.emailText"></span>
+                        </label>
+                        <span style="margin-left: 10px; font-size: 14px;" data-ng-if="mail.eventFeatureType != 'MAIL_GENERAL'">
+                            <span class="badge" style="background: black"
+                                  data-tooltip="" data-original-title="{{ 'common.category' | localized }}">{{ mail.eventFeatureType }}</span>
+                        </span>
+                        <span style="margin-left: 10px; font-size: 14px;" data-ng-if="mail.eventFeatureType == 'MAIL_GENERAL'">
+                            <span data-locale-string="administration.eventEditation.mails.defaultTextInfo"></span>
+                        </span>
+                        <textarea style="height: 100px;" id="mail" class="full-width" name="mail.content" data-ng-model="mail.content"></textarea>
+                    </div>
+                    <div class="input-container" data-ng-if="mail.eventFeatureType != 'MAIL_GENERAL'">
+                        <label for="applyGeneral">
+                            <span data-locale-string="administration.eventEditation.mails.applyDefault"></span>
+                        </label>
+                        <input type="checkbox" id="applyGeneral" name="mail.applyGeneral" data-ng-model="mail.applyGeneral"/>
+                    </div>
+                    <div class="input-container">
+                        <input class="form-button" style="margin-left: 10px;"
+                               data-ng-click="exitEditMail();" type="submit" value="{{ 'common.cancel' | localized }}"/>
+                        <input class="form-button" data-ng-click="updateMail();" type="submit"
+                               value="{{ 'administration.eventEditation.mails.saveMail' | localized }}"/>
+                    </div>
+                </div>
+            </form>
+            <hr/>
+            <div>
+                <table class="table table-striped">
+                    <tr data-ng-repeat="mail in mailList | orderBy:'id' | filter: getFilter">
+                        <td class="participant-status">
+                            <span class="preserve-whitespace" data-ng-bind-html="trustyHtml(mail.content)"></span>
+                            <span data-ng-if="!mail.content && !mail.applyGeneral" style="margin-left: 10px; font-size: 18px;">
+                                <span class="badge" style="background: red" data-locale-string="administration.eventEditation.mails.noExtraText"></span>
+                            </span>
+                            <span data-ng-if="!mail.content && mail.applyGeneral" style="margin-left: 10px; font-size: 18px;">
+                                <span class="badge" style="background: green" data-locale-string="administration.eventEditation.mails.textApply"></span>
+                            </span>
+                        </td>
+                        <td>
+                            <span style="margin-left: 10px; font-size: 18px;" data-ng-if="mail.eventFeatureType != 'MAIL_GENERAL'">
+                                <span class="badge" style="background: black"
+                                      data-tooltip="" data-original-title="{{ 'common.category' | localized }}">{{ mail.eventFeatureType }}</span>
+                            </span>
+                            <span style="margin-left: 10px; font-size: 18px;" data-ng-if="mail.eventFeatureType == 'MAIL_GENERAL'">
+                                <span class="badge" style="background: black"
+                                      data-tooltip="" data-original-title="{{ 'common.category' | localized }}"
+                                      data-locale-string="administration.eventEditation.mails.defaultText"></span>
+                            </span>
+                        </td>
+                        <td class="interactions">
+                            <a class="btn btn-info" data-tooltip="" data-original-title="{{ 'administration.eventEditation.mails.editMail' | localized }}"  data-ng-click="startEditMail(mail);">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="btn btn-success" data-tooltip="" data-original-title="{{ 'administration.eventEditation.mails.sendTestmail' | localized }}" data-ng-if="mail.eventFeatureType != 'MAIL_GENERAL'" data-ng-click="testMail(mail.id);">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <input type="text" style="width: 80%; margin: 0 20px 5px 20px;" data-error-aware name="receiver" data-ng-model="receiver"
+                       placeholder="{{ 'administration.eventEditation.mails.testmailReceiverInfo' | localized }}"/>
+            </div>
+        </div>
+    </div>
+</div>

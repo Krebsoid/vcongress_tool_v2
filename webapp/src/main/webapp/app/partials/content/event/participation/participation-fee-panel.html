@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<div class="participation-info-panel" data-on-scroll data-ng-controller="ParticipationFeeController">
+    <div>
+        <span class="headline" data-locale-string="participant.participationFee.headline"></span>
+    </div>
+    <hr/>
+    <div class="event-item-panel" >
+        <table class="participant-status-table">
+            <tr>
+                <th>Name</th>
+                <th class="cost">
+                    <span data-locale-string="participant.participationFee.price"></span>
+                    <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                          data-original-title="{{ 'participant.participationInfo.taxInfo' | localized }}"></span>
+                </th>
+            </tr>
+            <tr data-ng-repeat="eventSelection in onlyWithCost(participant.eventSelections)">
+                <td>
+                    <div data-ng-if="eventSelection.eventFeature.eventFeatureType == 'PARTICIPANT_STATUS' || eventSelection.eventFeature.eventFeatureType == 'SELECTION'">
+                        <span>
+                            {{eventSelection.value}} <br/>
+                            <small>{{ eventSelection.eventFeature.label }}</small>
+                        </span>
+                        <div data-ng-if="eventSelection.participantStatus.startDate" style="font-size: 10px;">
+                            <span>{{ eventSelection.participantStatus.startDate | date }} - </span>
+                            <span data-ng-if="eventSelection.participantStatus.endDate">{{ eventSelection.participantStatus.endDate | date }}</span>
+                            <span data-ng-if="!eventSelection.participantStatus.endDate" data-locale-string="participant.participationFee.dateEndLabel"></span>
+                        </div>
+                    </div>
+                    <div data-ng-if="eventSelection.eventFeature.eventFeatureType == 'DINNER'">
+                        <span>
+                            {{ eventSelection.eventFeature.eventItem.name }}<br/>
+                            <small>{{ eventSelection.eventFeature.label }}</small>
+                        </span>
+                    </div>
+                </td>
+                <td style="margin-left: 10px; font-size: 18px;">
+                    <div data-ng-if="eventSelection.eventFeature.eventFeatureType == 'PARTICIPANT_STATUS' || eventSelection.eventFeature.eventFeatureType == 'SELECTION'">
+                        <span data-ng-if="eventSelection.participantStatus.cost" class="badge" style="background: green;"
+                              data-tooltip="" data-original-title="{{ 'participant.participationFee.price' | localized}}">
+                            {{ eventSelection.participantStatus.cost | currency:'' }} &euro;
+                        </span>
+                        <span data-ng-if="!eventSelection.participantStatus.cost"> - </span>
+                    </div>
+                    <div data-ng-if="eventSelection.eventFeature.eventFeatureType == 'DINNER'">
+                        <span class="badge" style="background: green;" data-ng-if="eventSelection.eventFeature.eventItem.cost"
+                              data-tooltip="" data-original-title="{{ 'participant.participationFee.price' | localized}}">
+                            {{ eventSelection.eventFeature.eventItem.cost | currency:'' }} &euro;
+                        </span>
+                        <span data-ng-if="!eventSelection.eventFeature.eventItem.cost"> - </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 15px; margin-bottom: 20px">
+            <span style="font-size: 26px; display: inline-block; margin-right: 17px;">
+                <span data-locale-string="participant.participationFee.overall"></span>
+                <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                      data-original-title="{{ 'participant.participationInfo.taxInfo' | localized }}"></span>
+            </span>
+            <span class="badge" style="background: green; font-size: 26px; vertical-align: 2px;" data-ng-bind="sumCost | currency"></span>
+        </div>
+    </div>
+</div>

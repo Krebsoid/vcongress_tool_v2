@@ -1,0 +1,59 @@
+<div class="supporter-box">
+    <div style="padding: 0 20px;">
+        <span class="headline"><strong data-ng-bind="event.name"></strong></span>
+        <div>
+            <span class="headline2" data-ng-bind="event.startDate | date"></span>
+            <span class="headline3" style="margin-left: 5px;" data-ng-bind="event.startTime | date:'HH:mm'"></span>
+            <span class="headline2" data-ng-if="!!event.endDate && event.endDate != event.startDate">
+                <span style="margin: 0 5px"> - </span>
+                <span class="headline2" data-ng-bind="event.endDate | date"></span>
+                <span class="headline3" data-ng-bind="event.endTime | date:'HH:mm'"></span>
+            </span>
+            <span class="headline3" data-ng-if="!(!!event.endDate) || event.endDate == event.startDate">
+                <span data-ng-if="event.endTime"> - </span>
+                <span data-ng-bind="event.endTime | date:'HH:mm'"></span>
+            </span>
+        </div>
+    </div>
+    <hr/>
+    <div class="clearfix" style="width: 100%; padding: 0 20px;">
+        <table class="event-info-table">
+            <tr data-ng-if="event.description">
+                <td>
+                    <strong data-locale-string="participant.eventInfo.subtitle"></strong>
+                </td>
+                <td>
+                    <span data-ng-bind="event.description"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong data-locale-string="participant.eventInfo.location"></strong>
+                </td>
+                <td>
+                    <span data-ng-bind="event.location"></span>
+                </td>
+            </tr>
+            <tr data-ng-if="event.website || event.additionalInformation">
+                <td>
+                    <strong data-locale-string="participant.eventInfo.additionalInformation"></strong>
+                </td>
+                <td>
+                    <a data-ng-if="event.website" data-ng-href="{{ event.website }}" target="_blank" data-locale-string="participant.eventInfo.link"></a>
+                    <div data-ng-if="event.additionalInformation">
+                        <hr data-ng-if="event.website" style="margin: 5px 0"/>
+                        <div class="preserve-whitespace" data-ng-bind-html="event.additionalInformation | linky"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong data-locale-string="participant.eventInfo.contact"></strong>
+                </td>
+                <td>
+                    <div class="preserve-whitespace" data-ng-bind-html="event.contact | linky"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

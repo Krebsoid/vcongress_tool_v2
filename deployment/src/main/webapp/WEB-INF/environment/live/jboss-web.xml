@@ -1,0 +1,4 @@
+<jboss-web>
+    <context-root>/</context-root>
+    <virtual-host>cms.vcongress.de</virtual-host>
+</jboss-web>

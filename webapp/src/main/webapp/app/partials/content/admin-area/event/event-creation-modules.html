@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<div id="event-creation" data-ng-controller="EventModuleController" data-ng-init="event.initModuleSelection()">
+    <div class="form-container" style="width: 1000px;">
+        <span class="event-creation-headline" data-locale-string="administration.eventCreation.stepModules.headline"></span>
+        <hr/>
+        <p style="text-align: justify; margin: 0 20px;">
+            <span style="font-weight: bold; text-decoration: underline;">Additional Information:</span> You can test the CMS version as long as you want for <span style="font-weight: bold;">free</span>. In the test version only five participants can register during test modus.
+            Before you go live with your event you have to pay the license fees below. You can pay via credit card or via bank transfer. If you chose to pay via bank transfer
+            you have to complete your payment within 10 working days. Otherwise your live version will be set back into test modus. If choose the non-for-profit license
+            you have to upload a document stating that you are a non-for-profit organization within 10 working days. Otherwise your live version will be set back into test modus.
+        </p>
+        <hr/>
+        <div class="event-creation-container" style="width: 45%; display: inline-block; margin: 10px; vertical-align: top; cursor: pointer;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isModuleSelected('REGISTRATION')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Registration-Module</span>
+            </span>
+            <br/>
+            <span>
+                Participant registration without payment options<br/>
+                99,00 Euro + tax (non-for-profit license)<br/>
+                399,00 Euro + tax (business license)
+            </span>
+        </div>
+        <div class="event-creation-container" data-ng-click="event.selectModule('ACCOUNT')"
+             style="width: 45%; display: inline-block; margin: 10px; vertical-align: top; cursor: pointer;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isModuleSelected('ACCOUNT')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Account-Module</span>
+            </span>
+            <br/>
+            <span>
+                Credit Card payment and/or bank transfer for participants<br/>
+                99,00 Euro + tax (non-for-profit license)<br/>
+                399,00 Euro + tax (business license)
+            </span>
+        </div>
+        <div class="event-creation-container disabled"
+             style="width: 45%; display: inline-block; margin: 10px; vertical-align: top;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isModuleSelected('ABSTRACT')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Abstract-Module</span>
+            </span>
+            <br/>
+            <span>Creation and submission of abstracts and online reviewing process (not available at the moment)</span>
+        </div>
+        <div class="event-creation-container disabled"
+             style="width: 45%; display: inline-block; margin: 10px; vertical-align: top; cursor: pointer;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isModuleSelected('WEB')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Web-Module</span>
+            </span>
+            <br/>
+            <span>CMS website for your event (not available at the moment)</span>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.dashboard">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;" data-ui-sref="administration.event-creation-1">
+                <span data-locale-string="common.nextStep"></span>
+            </a>
+        </div>
+    </div>
+</div>

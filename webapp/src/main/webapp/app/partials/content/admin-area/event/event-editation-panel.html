@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<div id="event-creation" data-ng-controller="EventInfoController" style="text-align: center;">
+    <h1 data-ng-bind="event.name"></h1>
+
+    <hr/>
+
+    <div class="grouping-box">
+        <div data-ng-click="publishOpen = !publishOpen;" style="cursor: pointer;" data-ng-init="publishOpen = true">
+            <span data-ng-show="!publishOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="publishOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Status of the event</span>
+        </div>
+        <div class="grouping-content" data-ng-show="publishOpen">
+            <hr/>
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/event-publish.html'"></div>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="grouping-box">
+        <div data-ng-click="generalOpen = !generalOpen;" style="cursor: pointer;">
+            <span data-ng-show="!generalOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="generalOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Event data</span>
+        </div>
+        <div class="grouping-content" data-ng-show="generalOpen">
+            <hr/>
+
+            <div data-ng-if="!event.shortVersion" data-ng-include="'./partials/content/admin-area/event/event-editation/general-editation.html'"></div>
+            <div data-ng-if="event.shortVersion" data-ng-include="'./partials/content/admin-area/event/event-editation/short-general-editation.html'"></div>
+            <br/>
+
+            <hr/>
+
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/remote-editing.html'"></div>
+
+            <br/>
+
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/event-logo-upload.html'"></div>
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/disclaimer-editation.html'"></div>
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/mail-editation.html'"></div>
+        </div>
+    </div>
+
+    <div class="grouping-box">
+        <div data-ng-click="participationOpen = !participationOpen;" style="cursor: pointer;">
+            <span data-ng-show="!participationOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="participationOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Participation options</span>
+        </div>
+        <div class="grouping-content" data-ng-show="participationOpen">
+            <hr/>
+            <div class="grouping-control" data-ng-if="!event.shortVersion">
+                <span class="grouping-control-item" data-ng-click="addEventFeature('SELECTION')">
+                    <a>
+                        <span class="glyphicon glyphicon-list"></span>
+                        Add selection list (one selection)
+                    </a>
+                </span>
+                <span class="grouping-control-item" data-ng-click="addEventFeature('DINNER_COMBO')">
+                    <a>
+                        <span class="glyphicon glyphicon-check"></span>
+                        Add checkbox list (multiple selections)
+                    </a>
+                </span>
+            </div>
+            <hr/>
+            <div data-ng-repeat="eventFeature in event.eventFeatures | orderBy:'id'">
+                <div data-ng-if="eventFeature.eventFeatureType === 'PARTICIPANT_STATUS'" data-participant-status-creation="{{ eventFeature.id }}"></div>
+            </div>
+
+            <div data-ng-repeat="eventFeature in event.eventFeatures | orderBy:'id'">
+                <div data-ng-if="eventFeature.eventFeatureType === 'SELECTION'" data-selection-creation="{{ eventFeature.id }}"></div>
+                <div data-ng-if="eventFeature.eventFeatureType === 'DINNER_COMBO'" data-dinner-creation="{{ eventFeature.id }}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grouping-box" data-ng-if="eventService.isModuleSelected('ACCOUNT')">
+        <div data-ng-click="paymentOpen = !paymentOpen;" style="cursor: pointer;">
+            <span data-ng-show="!paymentOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="paymentOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Accounting</span>
+        </div>
+        <div class="grouping-content" data-ng-show="paymentOpen">
+            <hr/>
+            <div class="grouping-control">
+                <span class="grouping-control-item" data-ng-if="!eventService.hasEventFeature('PAYPAL','PAYMENT')"
+                      data-ng-click="addEventFeature('PAYPAL')">
+                    <a>
+                        <span class="glyphicon glyphicon-euro"></span>
+                        Activate PayPal
+                    </a>
+                </span>
+                <span class="grouping-control-item" data-ng-if="!eventService.hasEventFeature('CANCELLATION','PAYMENT')"
+                      data-ng-click="addEventFeature('CANCELLATION')">
+                    <a>
+                        <span class="glyphicon glyphicon-euro"></span>
+                        Define cancellation policies
+                    </a>
+                </span>
+            </div>
+            <hr/>
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/bank-account-editation.html'"></div>
+            <div data-ng-if="eventService.hasEventFeature('PAYPAL','PAYMENT')"
+                 data-ng-include="'./partials/content/admin-area/event/event-editation/paypal-editation.html'"></div>
+            <div data-ng-if="eventService.hasEventFeature('CANCELLATION','PAYMENT')"
+                 data-ng-include="'./partials/content/admin-area/event/event-editation/cancellation-editation.html'"></div>
+        </div>
+    </div>
+
+    <div class="grouping-box" data-ng-if="eventService.isModuleSelected('ABSTRACT')">
+        <div data-ng-click="abstractsOpen = !abstractsOpen;" style="cursor: pointer;">
+            <span data-ng-show="!abstractsOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="abstractsOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Abstracts</span>
+        </div>
+        <div class="grouping-content" data-ng-show="abstractsOpen">
+            <hr/>
+            <div class="grouping-control">
+                <span class="grouping-control-item" data-ng-if="!eventService.hasEventFeature('PAPER_SESSION','PAPER')"
+                      data-ng-click="addEventFeature('PAPER_SESSION')">
+                    <a>
+                        <span class="glyphicon glyphicon-book"></span>
+                        Define sessions
+                    </a>
+                </span>
+                <span class="grouping-control-item" data-ng-if="!eventService.hasEventFeature('PAPER_SUBMISSION_TYPE','PAPER')"
+                      data-ng-click="addEventFeature('PAPER_SUBMISSION_TYPE')">
+                    <a>
+                        <span class="glyphicon glyphicon-book"></span>
+                        Define submission types
+                    </a>
+                </span>
+            </div>
+            <hr/>
+            <div data-ng-include="'./partials/content/admin-area/event/event-editation/paper-general-editation.html'"></div>
+            <div data-ng-if="eventService.hasEventFeature('PAPER_SESSION','PAPER')" data-ng-include="'./partials/content/admin-area/event/event-editation/paper-session-editation.html'"></div>
+            <div data-ng-if="eventService.hasEventFeature('PAPER_SUBMISSION_TYPE','PAPER')" data-ng-include="'./partials/content/admin-area/event/event-editation/paper-submission-type-editation.html'"></div>
+        </div>
+    </div>
+
+</div>

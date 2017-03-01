@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<div class="participation-info-panel" data-ng-controller="EventInfoController" data-ng-if="!!generalInfo.description">
+    <div>
+        <span class="headline" data-locale-string="participant.participationInfo.headline"></span>
+    </div>
+    <hr/>
+    <div class="description" data-ng-bind-html="generalInfo.description | linky"></div>
+</div>

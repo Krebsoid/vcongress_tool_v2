@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<div class="participation-dinner-selection" data-ng-controller="DinnerSelectionController" style="position: relative;">
+    <div class="input-container">
+        <label for="dinner{{eventFeatureId}}" data-ng-bind="eventFeature.eventItem.name"></label>
+        <input type="checkbox" id="dinner{{eventFeatureId}}" data-ng-change="saveParticipation(eventFeatureId)"
+                data-ng-model="participation.checked" name="status" data-ng-disabled="checkDisabled()"/>
+    </div>
+    <div style="text-align: left; font-size: 12px; white-space: pre-line;" data-ng-bind-html="eventFeature.eventItem.description | linky"></div>
+    <div data-ng-if="checkDisabled()">
+        <div class="alert alert-warning" style="text-align: left">
+            <span data-locale-string="participant.participation.dinner.noLongerAvailable"></span>
+        </div>
+    </div>
+    <div data-fixed-selection-overlay="eventSelection"></div>
+</div>

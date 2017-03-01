@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div data-ng-controller="ExternalEventController" style="text-align: center; margin-top: 20px;">
+    <img data-ng-src="{{ event.eventLogo.linkLarge }}"/>
+</div>
+<div id="event-home" class="content-padding" data-ng-class="{testmode : event.eventStatus === 'TESTMODE'}"
+     data-ng-controller="EventInfoController">
+
+    <div class="form-container">
+        <div data-event-info="event"></div>
+        <hr/>
+        <div class="home-container-wrapper" data-ng-controller="GroupRegistrationController">
+            <div class="home-content margin-top">
+                <span data-locale-string="participant.registration.registered-successfully"></span>
+            </div>
+        </div>
+    </div>
+
+</div>

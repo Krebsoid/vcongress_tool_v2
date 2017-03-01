@@ -1,0 +1,115 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <base href="/"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="fragment" content="!">
+
+    <meta data-seo-value="author"/>
+    <meta data-seo-value="description"/>
+    <meta data-seo-value="keywords"/>
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/fancybox/source/jquery.fancybox.css">
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <!-- build:js scripts/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto:500,300,500italic,300italic" rel="stylesheet" type="text/css">
+
+    <title data-seo-title></title>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div data-ng-include="'./partials/content/main/teaser.html'"></div>
+
+    <div id="main">
+        <div id="content-wrapper">
+
+            <div id="content" data-ui-view></div>
+
+        </div>
+
+        <div data-ng-include="'./partials/content/main/footer.html'"></div>
+    </div>
+
+</div>
+
+
+
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-local-storage/angular-local-storage.js"></script>
+<script src="bower_components/lodash/dist/lodash.compat.js"></script>
+<script src="bower_components/angular-locale/app/scripts/Locale.js"></script>
+<script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+<script src="bower_components/ng-contextmenu/dist/ng-contextmenu.js"></script>
+<script src="bower_components/json3/lib/json3.js"></script>
+<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+<script src="bower_components/intl-tel-input/build/js/intlTelInput.js"></script>
+<!-- endbower -->
+<script src="bower_components/fancybox/source/jquery.fancybox.js"></script>
+<script src="bower_components/angular-i18n/angular-locale_de-de.js"></script>
+<!-- endbuild -->
+
+<!-- Any include make it between the build comments below -->
+<!-- build:js({app,.tmp}) scripts/main.js -->
+<script src="scripts/localization/Localization.js"></script>
+<script src="partials/meta/base/Meta.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/core/core.js"></script>
+<script src="scripts/common/common.js"></script>
+<script src="scripts/common/form.js"></script>
+<script src="scripts/seo/seo.js"></script>
+<script src="scripts/account/User.js"></script>
+<script src="scripts/account/Authorization.js"></script>
+<script src="scripts/account/PasswordChange.js"></script>
+<script src="scripts/person/Person.js"></script>
+<script src="scripts/admin-area/PersonList.js"></script>
+<script src="scripts/event/Event.js"></script>
+<script src="scripts/event/EventFeature.js"></script>
+<script src="scripts/event/EventList.js"></script>
+<script src="scripts/event/EventRegistration.js"></script>
+<script src="scripts/event/ParticipantList.js"></script>
+<script src="scripts/event/TransactionList.js"></script>
+<script src="scripts/event/ParticipantStatus.js"></script>
+<script src="scripts/event/Participation.js"></script>
+<script src="scripts/event/Dinner.js"></script>
+<script src="scripts/event/Disclaimer.js"></script>
+<script src="scripts/event/Payment.js"></script>
+<script src="scripts/account/Permissions.js"></script>
+<script src="scripts/admin-area/Dashboard.js"></script>
+<script src="scripts/customer/Order.js"></script>
+<script src="scripts/customer/Customer.js"></script>
+<script src="scripts/customer/CustomerList.js"></script>
+<script src="scripts/customer/OrderList.js"></script>
+<script src="scripts/event/Mail.js"></script>
+<script src="scripts/event/EventLogo.js"></script>
+<script src="scripts/paper/Paper.js"></script>
+<!-- inject:partials -->
+<!-- endinject -->
+<!-- endbuild -->
+</body>
+</html>

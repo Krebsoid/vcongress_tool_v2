@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<div class="participation-dinner-combo-selection left-divider" data-ng-controller="DinnerComboSelectionController">
+    <div>
+        <div style="text-align: left; margin-bottom: 10px;">
+            <strong style="font-size: 18px;" data-ng-bind="eventFeature.label"></strong>
+            <br/>
+            <span data-ng-show="eventFeature.dinnerFeatures.length > 1" data-locale-string="participant.participationInfo.multipleSelection"></span>
+            <div data-ng-show="eventFeature.required">
+                <span style="color: red" data-locale-string="participant.participationInfo.mandatory"></span>
+            </div>
+        </div>
+        <table class="participant-status-table">
+            <tr>
+                <th>Name</th>
+                <th class="limit">
+                    <span data-locale-string="participant.participationInfo.maxP"></span>
+                    <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                          data-original-title="{{ 'participant.participationInfo.maxParticipantInfo' | localized }}"></span>
+                </th>
+                <th class="cost">
+                    <span data-locale-string="participant.participationInfo.price"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'participant.participationInfo.taxInfo' | localized }}"></span>
+                </th>
+            </tr>
+            <tr data-ng-repeat="dinner in eventFeature.dinnerFeatures | orderBy:'id'"
+                data-ng-class="{'booked-out': isBookedOut(dinner), 'fixed' : isFixed(dinner)}"
+                data-ng-click="saveParticipation(dinner)" data-tooltip="{{ conditionalTooltip(dinner) }}">
+                <td data-ng-class="{chosen : isChecked(dinner) }" class="name" style="position: relative;">
+                    <div class="check-box" data-ng-class="{checked : isChecked(dinner)}"></div>
+                    <span>
+                        {{dinner.eventItem.name}}
+                    </span>
+                    <br/>
+                    <span>
+                        <small>{{dinner.eventItem.description}}</small>
+                    </span>
+                </td>
+                <td style="margin-left: 10px; font-size: 18px;">
+                    <span data-ng-if="dinner.eventItem.limit" class="badge" style="background: black"
+                          data-tooltip="" data-original-title="{{ 'participant.participationInfo.limit' | localized}}">{{ dinner.eventItem.limit }}</span>
+                    <span data-ng-if="!dinner.eventItem.limit"> - </span>
+                </td>
+                <td style="margin-left: 10px; font-size: 18px;">
+                    <span data-ng-if="dinner.eventItem.cost" class="badge" style="background: green;"
+                          data-tooltip="" data-original-title="{{ 'participant.participationInfo.price' | localized}}">
+                        {{ dinner.eventItem.cost | currency:'' }} &euro;
+                    </span>
+                    <span data-ng-if="!dinner.eventItem.cost"> - </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="text-align: left; font-size: 12px; white-space: pre-line;" data-ng-bind-html="eventFeature.description | linkyWithHtml"></div>
+    <div data-ng-if="countValid" style="margin-top: 10px;">
+        <div class="alert alert-warning" style="text-align: left">
+            <span data-locale-string="participant.participation.participantStatus.noLongerAvailable"></span>
+        </div>
+    </div>
+</div>
+<hr class="selection-divider"/>

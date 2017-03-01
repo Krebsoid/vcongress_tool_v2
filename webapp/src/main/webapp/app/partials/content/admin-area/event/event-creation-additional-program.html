@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="EventInfoController">
+    <div class="form-container">
+        <span class="event-creation-headline" data-locale-string="administration.eventCreation.step4.headline"></span>
+        <hr/>
+        <span style="display: inline-block; margin-bottom: 15px;" data-locale-string="administration.eventCreation.step4.description"></span>
+    </div>
+
+    <div data-ng-repeat="eventFeature in event.eventFeatures | orderBy:'id'">
+        <div data-ng-if="eventFeature.eventFeatureType === 'SELECTION'" data-initial-open="true" data-selection-creation="{{ eventFeature.id }}"></div>
+        <div data-ng-if="eventFeature.eventFeatureType === 'DINNER_COMBO'" data-initial-open="true" data-dinner-creation="{{ eventFeature.id }}"></div>
+    </div>
+
+    <div class="form-container">
+        <div class="input-container" style="margin: 0 3px 8px 20px;">
+            <label>
+                <span data-locale-string="administration.eventCreation.step4.question"></span>
+            </label>
+            <span class="action-button" data-ng-click="addEventFeature('DINNER_COMBO')" data-locale-string="administration.eventCreation.step4.checkbox"></span>
+            <span class="action-button" data-ng-click="addEventFeature('SELECTION')" data-locale-string="administration.eventCreation.step4.selection"></span>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.event-creation.participation({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;" data-ui-sref="administration.event-creation.publication({event: event.identifier})">
+                <span data-locale-string="common.nextStep"></span>
+            </a>
+        </div>
+    </div>
+</div>

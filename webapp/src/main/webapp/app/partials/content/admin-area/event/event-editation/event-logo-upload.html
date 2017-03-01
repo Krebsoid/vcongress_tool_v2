@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="EventLogoController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.logo.headline"></span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <hr/>
+            <form>
+                <div class="input-container">
+                    <label for="upload">
+                        <span data-locale-string="administration.eventEditation.logo.logo"></span>
+                    </label>
+                    <input id="upload" style="float: right" type="file" data-nv-file-select data-uploader="uploader"/>
+                </div>
+                <div>
+                    <ul>
+                        <li ng-repeat="item in uploader.queue" style="text-align: right; margin: 13px 0;">
+                            <input id="register-button" type="submit" data-ng-click="item.upload()"
+                                   class="action-button"
+                                   value="Logo hochladen" tabindex="5" data-ng-show="!uploading"/>
+                            <span data-ng-show="uploading">
+                                <span data-locale-string="administration.eventEditation.logo.uploading"></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+                <div data-ng-show="link" style="text-align: center;">
+                    <input class="action-button" type="submit" data-ng-click="removeEventLogo()"
+                           style="float: right"
+                           value="{{ 'administration.eventEditation.logo.deleteLogo' | localized }}"/>
+                    <img data-ng-src="{{ link }}"/>
+                </div>
+                <div class="alert alert-success" style="margin-top: 50px" data-ng-show="uploadEventLogoSuccess" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span data-locale-string="administration.eventEditation.logo.successful"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

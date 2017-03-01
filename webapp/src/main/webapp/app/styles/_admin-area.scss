@@ -1,0 +1,110 @@
+.admin-area {
+  .event-area-content {
+    padding-top: 30px;
+  }
+}
+
+#user-list, #participant-list {
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: .5;
+  }
+
+  #add-role {
+
+    &.form-container {
+      width: 520px;
+    }
+    &.modal-box {
+      position: fixed;
+
+      top: 10%;
+      left: -webkit-calc(50% - 260px);
+      left: -moz-calc(50% - 260px);
+      left: calc(50% - 260px);
+
+      .headline2 {
+        font-size: 30px;
+        line-height: 40px;
+        color: #0092c5;
+        font-weight: 100;
+      }
+
+      .preserve-whitespace {
+        white-space: pre-wrap;
+      }
+
+      .event-info-table {
+        text-align: left;
+        width: 100%;
+
+        td {
+          vertical-align: top;
+          padding: 5px;
+          border-bottom: $dark-grey 1px solid;
+
+          &:nth-child(1) {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.cancellation-table {
+  tr {
+    td {
+      width: 25%;
+
+      span {
+        font-size: 18px;
+
+        &.glyphicon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+.event-creation-container {
+  padding: 5px 20px;
+  & > a {
+    font-size: 20px;
+    padding: 20px;
+    display: block;
+    width: 100%;
+    background: $blue;
+    color: white;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-decoration: none;
+
+    &:hover {
+      background: $gray;
+    }
+
+    &.disabled {
+      &:hover {
+        background: $blue;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: $white;
+    }
+  }
+
+  span.large-text {
+    font-size: 30px
+  }
+}

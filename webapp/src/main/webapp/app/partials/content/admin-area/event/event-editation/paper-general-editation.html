@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="PaperFeatureController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Abstract Submission</span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <p>
+                Standarddaten zur Abstracteinreichung
+            </p>
+            <div>
+                <hr/>
+                <form>
+                    <div class="input-container">
+                        <label for="paperLimit">Maximale Anzahl Abstracts pro Teilnehmer</label>
+                        <input id="paperLimit" type="number" data-error-aware data-ng-model="paperFeature.paperLimit" name="paperLimit"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="wordLimit">Maximale Anzahl Wörter</label>
+                        <input id="wordLimit" type="number" data-error-aware data-ng-model="paperFeature.wordLimit" name="wordLimit"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="topicLimit">Maximale Länge des Titels</label>
+                        <input id="topicLimit" type="number" data-error-aware data-ng-model="paperFeature.topicLimit" name="topicLimit"/>
+                    </div>
+                    <div class="input-container">
+                        <input class="form-button" data-ng-click="updatePaperFeature();" type="submit" value="Daten speichern"/>
+                    </div>
+                    <hr/>
+                    <div class="input-container">
+                        <label for="submissionEnd"
+                               data-remote-error-aware="submissionEnd" data-remote-error-model="dates.submissionEnd">Ende der Abstract Einreichung
+                    <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                          title="Nach diesem Datum ist die Einreichung von Abstracts nicht mehr möglich."></span>
+                        </label>
+                        <input id="submissionEnd" type="date" datepicker-popup data-ng-model="dates.submissionEnd" data-is-open="datepicker.submissionEnd"
+                               data-datepicker-options="dateOptions" data-close-text="Close"/>
+                        <a class="btn btn-default date-glyphicon" ng-click="openSubmissionEnd($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></a>
+                    </div>
+                    <div class="input-container">
+                        <input class="form-button" data-ng-click="updateSubmissionDeadline();" type="submit" value="Deadline speichern"/>
+                    </div>
+                    <div style="width: 100%; text-align: center; padding: 20px 0;">
+                        <span style="color: green; font-weight: bold;" data-ng-show="editationSuccessful">Aktualisierung der Daten erfolgreich.</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

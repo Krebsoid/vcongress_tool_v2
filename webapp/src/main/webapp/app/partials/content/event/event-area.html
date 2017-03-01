@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<div class="event-area" data-ng-class="{testmode : event.eventStatus === 'TESTMODE'}"
+     data-ng-controller="EventInfoController">
+    <div data-ng-include="'./partials/content/event/menu.html'"></div>
+    <div data-ng-controller="ExternalEventController" style="text-align: center; margin-top: 20px;">
+        <img data-ng-src="{{ event.eventLogo.linkLarge }}"/>
+    </div>
+    <div class="event-area-content" data-ui-view=""></div>
+</div>

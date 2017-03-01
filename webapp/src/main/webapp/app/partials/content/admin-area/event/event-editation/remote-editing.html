@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="RemoteEditingController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Remote Editing</span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <div style="padding: 20px;">
+                <button class="action-button" data-ng-click="retrieveLink()">
+                    Show the link for remote editing, to send to your colleagues. Following this link will login the user
+                    automatically and allow to change event data.
+                </button>
+            </div>
+            <p data-ng-show="!!link" style="font-size: 20px; font-weight: bold">
+                <a data-ng-href="{{ link }}">{{ link }}</a>
+            </p>
+        </div>
+    </div>
+</div>

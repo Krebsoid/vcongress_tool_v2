@@ -1,0 +1,374 @@
+$width: 1024px;
+
+$blue: #0092c5;
+$light-blue: #4483BF;
+
+//$border-grey: rgb(128, 125, 125);
+$border-grey: lightgrey;
+$dark-red: #6F0E07;
+$light-red: #955541;
+$dark-grey: #5A5A57;
+$more-dark-grey: #2e2f2b;
+$light-grey: #b0b1ad;
+$darker-grey: #c7c8c4;
+$border-light-grey: #e7e8e4;
+$dark-blue: #423796;
+$white: white;
+$black: #050607;
+
+$font: 'Roboto', sans-serif;
+
+$assetPath: "../images";
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.background-green {
+  background: green;
+}
+
+.background-red {
+  background: red;
+}
+
+.alert-text {
+  h2 {
+    color: red;
+    span {
+      color: red;
+    }
+  }
+
+  p {
+    color: red;
+  }
+}
+
+.badge {
+  &.badge-black {
+    background-color: black;
+  }
+
+  &.badge-green {
+    background-color: green;
+  }
+}
+
+.glyphicon-margin {
+  margin-right: 8px;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+html[xmlns] .clearfix {
+  display: block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+body {
+  margin: 0;
+}
+
+p {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+a {
+  text-decoration: none;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 18px;
+  line-height: 22px;
+  span {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+h2 {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+h3 {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+}
+
+body {
+  font-family: $font;
+  //background: rgb(0, 0, 0) url($assetPath + "/layout/brown_canvas_seamless.jpg") repeat fixed top left;
+}
+
+div#wrapper {
+  width: 100%;
+  min-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+
+
+  #teaser {
+    width: 100%;
+    text-align: right;
+    height: 11vw;
+
+    @media only screen and (max-width: 1024px) {
+      height: 112px;
+    }
+
+    .headline {
+      width: 100%;
+      height: auto;
+      padding-bottom: 20px;
+
+
+      .scisertec-logo {
+        height: 50px;
+        margin-right: 27px;
+        display: inline-block;
+        vertical-align: -15px;
+      }
+
+      h1 {
+        margin: 0;
+        line-height: 70px;
+      }
+    }
+  }
+
+  #main {
+    padding-bottom: 30px;
+    width: 100%;
+    position: relative;
+
+    #content {
+      padding-bottom: 50px;
+    }
+  }
+}
+
+
+.menu {
+  width: 100%;
+  .menu-container {
+    text-align: center;
+    border-bottom: 1px solid $border-grey;
+    padding: 10px 0;
+    .menu-item {
+      display: inline-block;
+      margin: 5px;
+      background: $blue;
+      border: solid 2px darkgrey;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      a {
+        color: white;
+        display: block;
+        padding: 7px;
+        text-decoration: none;
+      }
+
+      &:hover {
+        background: $dark-grey;
+      }
+      &:active {
+        background: $more-dark-grey;
+      }
+    }
+
+  }
+}
+
+
+footer {
+  width: 100%;
+  min-width: 1024px;
+  text-align: left;
+  position: fixed;
+  background: white;
+  border-top: 1px solid $border-grey;
+  bottom: 0;
+  height: 33px;
+
+
+  #footer-menu-container {
+    position: relative;
+    width: 100%;
+    height: 33px;
+
+    #footer-menu {
+      width: 100%;
+      padding: 5px 10px 0 10px;
+
+      div {
+        a {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+}
+
+$checked-color: green;
+$unchecked-color: #333333;
+$checkbox-height: 22px;
+$background-color: none;
+$font-color:#efefef;
+$duration: .4s;
+
+/* Checkmark style starts */
+
+@-moz-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2; }
+}
+
+@-webkit-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2; }
+}
+
+@keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2;  }
+}
+
+@keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+@-webkit-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+@-moz-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+
+
+.check-box {
+  height: $checkbox-height;
+  width: $checkbox-height;
+  background-color: transparent;
+  border: $checkbox-height * .1 solid $unchecked-color;
+  border-radius: 5px;
+  position: relative;
+  float: left;
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: border-color ease $duration/2;
+  -o-transition: border-color ease $duration/2;
+  -webkit-transition: border-color ease $duration/2;
+  transition: border-color ease $duration/2;
+  cursor:pointer;
+  margin-right: 5px;
+
+  &::before, &::after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    height: 0;
+    width: $checkbox-height * .2;
+    background-color: $checked-color;
+    display: inline-block;
+    -moz-transform-origin: left top;
+    -ms-transform-origin: left top;
+    -o-transform-origin: left top;
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    border-radius: 5px;
+    content: ' ';
+    -webkit-transition: opacity ease .5s;
+    -moz-transition: opacity ease .5s;
+    transition: opacity ease .5s;
+  }
+
+  &::before {
+    top:$checkbox-height * .72;
+    left: $checkbox-height * .41;
+    box-shadow: 0 0 0 $checkbox-height * .05 $background-color;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+
+  &::after {
+    top: $checkbox-height * .37;
+    left: $checkbox-height * .05;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+}
+
+
+input[type=checkbox]:checked + .check-box,
+.check-box.checked{
+  border-color:$checked-color;
+
+  &::after{
+    height: $checkbox-height * .5;
+    -moz-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    -o-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    -webkit-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    animation: dothabottomcheck $duration/2 ease 0s forwards;
+  }
+
+  &::before{
+    height: $checkbox-height * 1.2;
+    -moz-animation: dothatopcheck $duration ease 0s forwards;
+    -o-animation: dothatopcheck $duration ease 0s forwards;
+    -webkit-animation: dothatopcheck $duration ease 0s forwards;
+    animation: dothatopcheck $duration ease 0s forwards;
+  }
+}

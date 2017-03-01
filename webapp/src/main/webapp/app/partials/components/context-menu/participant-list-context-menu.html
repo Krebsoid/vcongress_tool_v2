@@ -1,0 +1,22 @@
+<div class="participant-context-menu" data-restricted-event="ORGANIZER,PROJECT_LEAD">
+    <h2>{{participant.person.firstName}} {{participant.person.lastName}}</h2>
+    <hr/>
+    <ul>
+        <li>
+            <a data-ui-sref="administration.event.person-edit({person: participant.person.id})">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Persönliche Daten bearbeiten
+            </a>
+        </li>
+        <li>
+            <a data-ui-sref="administration.event.participation-edit({participant: participant.id})">
+                <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Teilnahme bearbeiten
+            </a>
+        </li>
+        <li data-ng-click="cancelParticipant()" data-ng-show="participant.active">
+            <span class="glyphicon glyphicon-ban-circle"></span> Teilnehmer abmelden
+        </li>
+        <li data-ng-click="enableParticipant()" data-ng-show="!participant.active">
+            <span class="glyphicon glyphicon-ok-circle"></span> Teilnehmer wieder anmelden
+        </li>
+    </ul>
+</div>

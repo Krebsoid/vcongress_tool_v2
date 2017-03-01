@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<div id="event-creation" data-ng-controller="EventLicenseController">
+    <div class="form-container" style="width: 1000px;">
+        <span class="event-creation-headline" data-locale-string="administration.eventPublish.licenseSelection.headline"></span>
+        <hr/>
+        <p style="text-align: justify; margin: 0 20px;">
+            <span style="font-weight: bold; text-decoration: underline;">Important Information:</span> You can pay via credit card or via bank transfer. If you choose to pay via bank transfer
+            you have to complete your payment within 10 working days. Otherwise your live version will be set back into test modus. <span style="font-weight: bold;">If choose the non-for-profit license</span>
+            you have to upload a <span style="font-weight: bold;">document stating that you are a non-for-profit organization</span> within 10 working days. Otherwise your live version will be set back into test modus.
+        </p>
+        <hr/>
+        <div class="event-creation-container" data-ng-click="event.selectLicense('COMMERCIAL')"
+             style="width: 45%; display: inline-block; margin: 10px; vertical-align: top; cursor: pointer;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isLicenseSelected('COMMERCIAL')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Business</span>
+            </span>
+            <br/>
+            <span data-ng-if="event.isModuleSelected('REGISTRATION') && !event.isModuleSelected('ACCOUNT')">399,00 Euro + tax (business license)</span>
+            <span data-ng-if="event.isModuleSelected('ACCOUNT') && event.isModuleSelected('REGISTRATION')">798,00 Euro + tax (business license)</span>
+        </div>
+        <div class="event-creation-container" data-ng-click="event.selectLicense('NON_FOR_PROFIT')"
+             style="width: 45%; display: inline-block; margin: 10px; vertical-align: top; cursor: pointer;">
+            <span class="large-text">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span class="check-box" data-ng-class="{checked: event.isLicenseSelected('NON_FOR_PROFIT')}" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span>Non-For-Profit</span>
+            </span>
+            <br/>
+            <span data-ng-if="event.isModuleSelected('REGISTRATION') && !event.isModuleSelected('ACCOUNT')">99,00 Euro + tax (non-for-profit license)</span>
+            <span data-ng-if="event.isModuleSelected('ACCOUNT') && event.isModuleSelected('REGISTRATION')">198,00 Euro + tax (non-for-profit license)</span>
+        </div>
+        <div data-ng-show="event.isLicenseSelected('NON_FOR_PROFIT')">
+            <hr/>
+            <form data-ng-controller="PdfUploadController">
+                <div class="input-container">
+                    <label for="upload">
+                        <span data-locale-string="administration.eventEditation.license.pdf"></span>
+                    </label>
+                    <input id="upload" style="float: right" type="file" data-nv-file-select data-uploader="uploader"/>
+                </div>
+                <div>
+                    <ul>
+                        <li ng-repeat="item in uploader.queue" style="text-align: right; margin: 13px 0;">
+                            <input id="register-button" type="submit" data-ng-click="item.upload()"
+                                   class="action-button"
+                                   value="PDF hochladen" tabindex="5" data-ng-show="!uploading"/>
+                            <span data-ng-show="uploading">
+                                <span data-locale-string="administration.eventEditation.license.uploading"></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+                <div class="alert alert-success" style="margin-top: 50px" data-ng-show="uploadPdfSuccess" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span data-locale-string="administration.eventEditation.license.successful"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.event.event-editation({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <span class="form-button" style="margin-left: 5px;" data-ng-click="saveLicense()">
+                <span data-locale-string="administration.eventPublish.licenseSelection.publishEvent"></span>
+            </span>
+        </div>
+    </div>
+</div>

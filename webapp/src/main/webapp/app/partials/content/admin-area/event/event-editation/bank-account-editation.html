@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="BankTransferFeatureController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.bankTransfer.headline"></span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <p data-locale-string="administration.eventEditation.bankTransfer.description"></p>
+            <div>
+                <hr/>
+                <form>
+                    <div class="input-container">
+                        <label for="holder">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.accountHolder"></span>
+                        </label>
+                        <input id="holder" type="text" data-error-aware data-ng-model="bankTransferFeature.holder" name="holder"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="creditInstitute">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.creditInstitute"></span>
+                        </label>
+                        <input id="creditInstitute" type="text" data-error-aware data-ng-model="bankTransferFeature.creditInstitute" name="creditInstitute"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="iban">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.iban"></span>
+                        </label>
+                        <input id="iban" type="text" data-error-aware data-ng-model="bankTransferFeature.iban" name="iban"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="bic">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.bic"></span>
+                        </label>
+                        <input id="bic" type="text" data-error-aware data-ng-model="bankTransferFeature.bic" name="bic"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceSender">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.sender"></span>
+                        </label>
+                        <textarea id="invoiceSender" data-error-aware data-ng-model="bankTransferFeature.invoiceSender" name="invoiceSender"></textarea>
+                    </div>
+                    <div class="input-container">
+                        <input class="form-button" data-ng-click="updateBankTransferFeature();" type="submit"
+                               value="{{ 'administration.eventEditation.bankTransfer.saveBankData' | localized }}"/>
+                    </div>
+                    <div style="width: 100%; text-align: center; padding: 20px 0;">
+                        <span style="color: green; font-weight: bold;" data-ng-show="editationSuccessful">
+                            <span data-locale-string="administration.eventEditation.bankTransfer.successful"></span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

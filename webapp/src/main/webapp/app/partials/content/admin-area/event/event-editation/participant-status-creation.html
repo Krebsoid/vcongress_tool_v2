@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="ParticipantStatusCreationController">
+    <div class="form-container" data-ng-show="!deleted">
+        <div data-ng-click="initialOpen = !initialOpen;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.participantStatus.headline"></span><br/>
+            <span class="subheadline" data-ng-bind="eventFeature.label"></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <hr/>
+            <form>
+                <div class="input-container">
+                    <label for="label">
+                        <span data-locale-string="administration.eventEditation.participantStatus.featureLabel"></span>
+                    </label>
+                    <input id="label" type="text" data-error-aware
+                           data-ng-change="updateEventFeature()"
+                           data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
+                           data-ng-model="eventFeature.label" name="label"/>
+                </div>
+            </form>
+            <form>
+                <div class="input-container">
+                    <label for="description">
+                        <span data-locale-string="administration.eventEditation.participantStatus.featureDescription"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventEditation.participantStatus.featureDescriptionTooltip' | localized }}"></span>
+                    </label>
+                    <textarea class="smaller" id="description" data-ng-change="updateEventFeature()"
+                              ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
+                              data-ng-model="eventFeature.description" name="description"></textarea>
+
+                </div>
+            </form>
+            <form>
+                <div class="input-container">
+                    <label for="required">
+                        <span data-locale-string="administration.eventEditation.selection.requiredQuestion"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventEditation.selection.requiredTooltip' | localized }}"></span>
+                    </label>
+                    <input type="checkbox" class="smaller" id="required" data-ng-change="updateEventFeature()"
+                              ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
+                              data-ng-model="eventFeature.required" name="required"/>
+
+                </div>
+            </form>
+            <hr/>
+            <form data-ng-class="{disabled: disableEarlyBird }" data-ng-show="editMode || newItem" data-ng-if="eventService.isModuleSelected('ACCOUNT')">
+                <div class="input-container">
+                    <label>
+                        <span data-locale-string="administration.eventEditation.participantStatus.earlyBirdQuestion"></span>
+                    </label>
+                    <button class="form-button" style="float: none" data-ng-click="options.earlyBird = true; disableEarlyBird = false;">Ja</button>
+                    <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="options.earlyBird = false; disableEarlyBird = true;">Nein</button>
+                </div>
+                <div class="input-container" data-ng-if="options.earlyBird">
+                    <label for="startDate">
+                        <span data-locale-string="administration.eventEditation.participantStatus.earlyBird"></span>
+                    </label>
+                    <input id="startDate" type="date" datepicker-popup data-ng-model="dates.startDate" data-is-open="datepicker.startDate"
+                           data-datepicker-options="dateOptions" data-close-text="Close"/>
+                    <a class="btn btn-default date-glyphicon" ng-click="openStartDate($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></a>
+                    <input id="endDate" type="date" datepicker-popup data-ng-model="dates.endDate" data-is-open="datepicker.endDate"
+                           data-datepicker-options="dateOptions" data-close-text="Close"/>
+                    <a class="btn btn-default date-glyphicon" ng-click="openEndDate($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></a>
+                </div>
+                <hr/>
+            </form>
+            <form>
+                <div data-ng-show="editMode || newItem">
+                    <div class="input-container">
+                        <label for="participantStatus">
+                            <span data-locale-string="administration.eventEditation.participantStatus.participantStatusLabel"></span>
+                        </label>
+                        <input id="participantStatus" type="text" data-error-aware
+                               data-on-enter="addStatus()"
+                               data-ng-model="status.name" name="participantStatus"/>
+                    </div>
+                    <div class="input-container" data-ng-if="options.earlyBird && eventService.isModuleSelected('ACCOUNT')">
+                        <label for="earlyBird">
+                            <span data-locale-string="administration.eventEditation.participantStatus.earlyBirdStatus"></span>
+                        </label>
+                        <input id="earlyBird" type="checkbox"
+                               data-ng-model="status.earlyBird" name="earlyBird"/>
+                    </div>
+                    <div class="input-container" data-ng-class="{disabled: disableLimit }">
+                        <div class="input-container">
+                            <label>
+                                <span data-locale-string="administration.eventEditation.selection.limitQuestion"></span>
+                            </label>
+                            <button class="form-button" style="float: none" data-ng-click="activateLimit()">
+                                <span data-locale-string="common.yes"></span>
+                            </button>
+                            <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="deactivateLimit()">
+                                <span data-locale-string="common.no"></span>
+                            </button>
+                        </div>
+                        <div data-ng-if="limit" style="text-align: left; margin-bottom: 5px; margin-top: 10px;">
+                        <span data-locale-string="administration.eventEditation.participantStatus.limitInfo"></span>
+                        </div>
+                        <div class="input-container" data-ng-if="limit">
+                            <label for="limit">
+                                <span data-locale-string="administration.eventEditation.participantStatus.limit"></span>
+                                <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                                      data-original-title="{{ 'administration.eventEditation.participantStatus.limitTooltip' | localized }}"></span>
+                            </label>
+                            <input id="limit" type="number" data-error-aware
+                                   data-ng-model="status.limit" name="limit"/>
+                        </div>
+                    </div>
+                    <div class="input-container" data-ng-if="eventService.isModuleSelected('ACCOUNT')">
+                        <label for="cost">
+                            <span data-locale-string="administration.eventEditation.checkbox.cost"></span>
+                        </label>
+                        <input id="cost" type="number" step="0.01" data-error-aware
+                               data-ng-model="status.cost" name="cost"/>
+                    </div>
+                    <div class="input-container" data-ng-class="{disabled: disableTax}" data-ng-if="eventService.isModuleSelected('ACCOUNT')">
+                        <label>
+                            <span data-locale-string="administration.eventEditation.checkbox.taxQuestion"></span>
+                        </label>
+                        <button class="form-button" style="float: none" data-ng-click="activateTax()">
+                            <span data-locale-string="common.yes"></span>
+                        </button>
+                        <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="deactivateTax()">
+                            <span data-locale-string="common.no"></span>
+                        </button>
+                    </div>
+                    <div class="input-container" data-ng-if="tax && eventService.isModuleSelected('ACCOUNT')">
+                        <label for="tax">
+                            <span data-locale-string="administration.eventEditation.checkbox.tax"></span>
+                        </label>
+                        <input id="tax" type="number" data-error-aware
+                               data-ng-model="status.tax" name="tax"/>
+                    </div>
+                </div>
+
+                <div style="margin: 10px 0;">
+                    <div class="input-container" data-ng-show="newItem || editMode">
+                        <input class="action-button" style="margin-left: 10px; float: right;" data-ng-if="editMode || newItem" data-ng-click="exitEditStatus();" type="submit" value="{{ 'common.cancel' | localized }}"/>
+                        <input class="action-button" style="float: right" data-ng-if="!editMode" data-ng-click="addStatus();" type="submit" value="{{ 'administration.eventEditation.checkbox.create' | localized }}"/>
+                        <input class="action-button" style="float: right" data-ng-if="editMode" data-ng-click="editStatus();" type="submit" value="{{ 'administration.eventEditation.checkbox.edit' | localized }}"/>
+                    </div>
+                    <div class="input-container" data-ng-show="!newItem && !editMode">
+                        <input class="action-button" style="float: right" data-ng-click="newItem = true" type="submit" value="{{ 'administration.eventEditation.checkbox.createNew' | localized }}"/>
+                    </div>
+                </div>
+            </form>
+            <div data-ng-show="statusList.length > 0">
+                <hr/>
+                <p>
+                    To add another status just complete „Designation of the participant status“ again and press create selection.
+                </p>
+            </div>
+            <hr/>
+            <div>
+                <table class="participant-status-table table table-striped">
+                    <tr data-ng-repeat="status in statusList | orderBy:'id' ">
+                        <td class="participant-status">
+                            <span>{{status.name}}</span>
+                            <span data-ng-if="status.limit" style="margin-left: 10px; font-size: 18px;">
+                                <span class="badge" style="background: black"
+                                      data-tooltip="" data-original-title="{{ 'common.limit' | localized }}">{{ status.limit }}</span>
+                            </span>
+                            <span data-ng-if="status.cost" style="margin-left: 10px; font-size: 18px;">
+                                <span class="badge" style="background: green;"
+                                      data-tooltip="" data-original-title="{{ 'common.cost' | localized }}">
+                                    {{ status.cost | currency:'' }} &euro;
+                                </span>
+                            </span>
+                            <span data-ng-if="status.startDate" style="margin-left: 10px; font-size: 18px;">
+                                <br/><span>{{ status.startDate | date }} - </span>
+                                <span data-ng-if="status.endDate">{{ status.endDate | date }}</span>
+                                <span data-ng-if="!status.endDate">
+                                    <span data-locale-string="administration.eventEditation.participantStatus.open"></span>
+                                </span>
+                            </span>
+                        </td>
+                        <td class="interactions">
+                            <a class="btn btn-info" data-tooltip data-original-title="{{ 'administration.eventEditation.checkbox.edit' | localized }}" data-ng-click="startEditStatus(status);">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="btn btn-danger delete-btn" data-tooltip data-original-title="{{ 'administration.eventEditation.checkbox.delete' | localized }}" data-ng-click="removeStatus(status);">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

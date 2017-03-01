@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<div class="participation-participant-status-selection left-divider" data-ng-controller="ParticipantStatusSelectionController" style="position: relative;">
+    <div class="input-container">
+        <div style="text-align: left; margin-bottom: 10px;">
+            <strong style="font-size: 18px;" data-ng-bind="eventFeature.label"></strong>
+            <br/>
+            <span data-ng-show="statusList.length > 1" data-locale-string="participant.participationInfo.onlyOneSelection"></span>
+            <div data-ng-show="eventFeature.required">
+                <span style="color: red" data-locale-string="participant.participationInfo.mandatory"></span>
+            </div>
+        </div>
+        <table class="participant-status-table">
+            <tr>
+                <th>Name</th>
+                <th class="limit">
+                    <span data-locale-string="participant.participationInfo.maxP"></span>
+                    <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                          data-original-title="{{ 'participant.participationInfo.maxParticipantInfo' | localized }}"></span>
+                </th>
+                <th class="cost">
+                    <span data-locale-string="participant.participationInfo.price"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'participant.participationInfo.taxInfo' | localized }}"></span>
+                </th>
+            </tr>
+            <tr data-ng-repeat="status in statusList" data-ng-class="{'booked-out': isBookedOut(status)}"
+                data-ng-click="saveParticipation(status)" data-tooltip="{{ conditionalTooltip(status) }}">
+                <td data-ng-class="{chosen : isSelected(status)}" class="name">
+                    <div class="check-box" data-ng-class="{checked : isSelected(status)}"></div>
+                    <span>
+                        {{status.name}}
+                    </span>
+                    <div data-ng-if="status.startDate" style="font-size: 10px;">
+                        <span>{{ status.startDate | date }} - </span>
+                        <span data-ng-if="status.endDate">{{ status.endDate | date }}</span>
+                        <span data-ng-if="!status.endDate" data-locale-string="participant.participationInfo.dateEndLabel"></span>
+                    </div>
+                </td>
+                <td style="margin-left: 10px; font-size: 18px;">
+                    <span data-ng-if="status.limit" class="badge" style="background: black"
+                          data-tooltip="" data-original-title="{{ 'participant.participationInfo.limit' | localized}}">{{ status.limit }}</span>
+                    <span data-ng-if="!status.limit"> - </span>
+                </td>
+                <td style="margin-left: 10px; font-size: 18px;">
+                    <span data-ng-if="status.cost" class="badge" style="background: green;"
+                          data-tooltip="" data-original-title="{{ 'participant.participationInfo.price' | localized}}">
+                        {{ status.cost | currency:'' }} &euro;
+                    </span>
+                    <span data-ng-if="!status.cost"> - </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-ng-if="countValid">
+        <div class="alert alert-warning" style="text-align: left">
+            <span data-locale-string="participant.participation.participantStatus.noLongerAvailable"></span>
+        </div>
+    </div>
+    <div data-ng-if="eventSelection.fixed">
+        <div style="position: absolute; top: 0; width: 100%; height: 100%; cursor: not-allowed" data-tooltip="{{ fixedTooltip(); }}">
+            <div style="width: 100%; height: 100%; opacity: .5; background: white; position: absolute; top: 0;"></div>
+        </div>
+    </div>
+</div>
+<hr class="selection-divider"/>

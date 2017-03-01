@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="EventCreationController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.general.headline"></span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <hr/>
+            <form>
+                <div class="input-container">
+                    <label for="name">
+                        <span data-locale-string="administration.eventCreation.step1.name"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.nameTooltip' | localized }}"></span>
+                    </label>
+                    <input id="name" type="text" data-error-aware data-ng-model="event.name" name="name"/>
+                </div>
+                <div class="input-container">
+                    <label for="description">
+                        <span data-locale-string="administration.eventCreation.step1.description"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.descriptionTooltip' | localized }}"></span>
+                    </label>
+                    <input id="description" type="text" data-error-aware data-ng-model="event.description" name="description"/>
+                </div>
+                <div class="input-container">
+                    <label for="location">
+                        <span data-locale-string="administration.eventCreation.step1.location"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.locationTooltip' | localized }}"></span>
+                    </label>
+                    <input id="location" type="text" data-ng-disabled="!hasPermission('system', ['ADMIN'])"
+                           data-error-aware data-ng-model="event.location" name="location"/>
+                    <span style="color: red;" data-ng-show="!hasPermission('system', ['ADMIN'])">
+                        <span style="color: red;">Editing of the event venue is no longer possible afterwards.</span>
+                    </span>
+                </div>
+                <div class="input-container">
+                    <label for="startDate"
+                           data-remote-error-aware="startDate" data-remote-error-model="dates.startDate">
+                        <span data-locale-string="administration.eventCreation.step1.date"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.dateTooltip' | localized }}"></span>
+                    </label>
+                    <input id="startDate" type="date" datepicker-popup data-ng-model="dates.startDate" data-is-open="datepicker.startDate"
+                           data-ng-disabled="!hasPermission('system', ['ADMIN'])"
+                           data-datepicker-options="dateOptions" data-close-text="Close"/>
+                    <a class="btn btn-default date-glyphicon" data-ng-hide="!hasPermission('system', ['ADMIN'])"
+                       ng-click="openStartDate($event)"><i class="glyphicon glyphicon-calendar"
+                            data-remote-error-aware="startDate" data-remote-error-model="dates.startDate"></i></a>
+                    <input id="endDate" type="date" datepicker-popup data-ng-model="dates.endDate" data-is-open="datepicker.endDate"
+                           data-ng-disabled="!hasPermission('system', ['ADMIN'])"
+                           data-datepicker-options="dateOptions" data-close-text="Close"/>
+                    <a class="btn btn-default date-glyphicon" data-ng-hide="!hasPermission('system', ['ADMIN'])"
+                       ng-click="openEndDate($event)"><i class="glyphicon glyphicon-calendar"></i></a>
+                </div>
+                <div class="input-container" style="margin-top: 0; padding-left: 380px;" data-ng-show="!hasPermission('system', ['ADMIN'])">
+                    <span style="color: red;">Editing of the event dates is no longer possible afterwards.</span>
+                </div>
+                <div class="input-container">
+                    <label for="startTime"
+                           data-remote-error-aware="startTime" data-remote-error-model="event.startTime">
+                        <span data-locale-string="administration.eventCreation.step1.time"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.timeTooltip' | localized }}"></span>
+                    </label>
+                    <input id="startTime" class="time-input-field" type="text" data-ng-model="event.startTime"
+                           placeholder="{{ 'administration.eventCreation.step1.timeStartPlaceholder' | localized }}"/>
+                    <span class="time-input-divider"> - </span>
+                    <input id="endTime" class="time-input-field" type="text" data-ng-model="event.endTime"
+                           placeholder="{{ 'administration.eventCreation.step1.timeEndPlaceholder' | localized }}"/>
+                </div>
+                <div class="input-container">
+                    <label for="registrationEnd"
+                           data-remote-error-aware="startDate" data-remote-error-model="dates.startDate">
+                        <span data-locale-string="administration.eventCreation.step1.endOfRegistration"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.endOfRegistrationTooltip' | localized }}"></span>
+                    </label>
+                    <input id="registrationEnd" type="date" datepicker-popup data-ng-model="dates.registrationEnd" data-is-open="datepicker.registrationEnd"
+                           data-datepicker-options="dateOptions" data-close-text="Close"/>
+                    <a class="btn btn-default date-glyphicon" ng-click="openRegistrationEnd($event)"><i
+                            class="glyphicon glyphicon-calendar"></i></a>
+                </div>
+                <div class="input-container">
+                    <label for="website">
+                        <span data-locale-string="administration.eventCreation.step1.website"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.websiteTooltip' | localized }}"></span>
+                    </label>
+                    <input id="website" type="text" data-error-aware data-ng-model="event.website" name="website"/>
+                </div>
+                <div class="input-container">
+                    <label for="additionalInformation">
+                        <span data-locale-string="administration.eventCreation.step1.additionalInformation"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.additionalInformationTooltip' | localized }}"></span>
+                    </label>
+                    <textarea style="height: 100px;" id="additionalInformation" data-error-aware data-ng-model="event.additionalInformation" name="additionalInformation"></textarea>
+                </div>
+                <div class="input-container">
+                    <label for="contact">
+                        <span data-locale-string="administration.eventCreation.step1.contact"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.contactTooltip' | localized }}"></span>
+                    </label>
+                    <textarea id="contact" data-error-aware data-ng-model="event.contact" name="contact"></textarea>
+                </div>
+                <hr/>
+                <div class="input-container">
+                    <label for="identifier">
+                        <span data-locale-string="administration.eventCreation.step1.identifier"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'administration.eventCreation.step1.identifierTooltip' | localized }}"></span>
+                    </label>
+                    <input id="identifier" type="text" data-error-aware data-ng-model="event.identifier" name="identifier" data-ng-disabled="true"/>
+                    <span style="color: red;" data-locale-string="administration.eventCreation.step1.identifierInfo"></span>
+                </div>
+                <div class="link-preview">
+                    <span data-locale-string="administration.eventCreation.step1.linkPreview"></span> <span class="link" data-ng-bind="link(event.identifier)"></span>
+                </div>
+                <div class="input-container">
+                    <input data-ng-if="editMode" class="form-button" data-ng-click="edit(true);" type="submit" value="{{ 'common.save' | localized }}"/>
+                </div>
+                <div style="width: 100%; text-align: center; padding: 20px 0;">
+                    <span style="color: green; font-weight: bold;" data-ng-show="editationSuccessful">
+                        <span data-locale-string="administration.eventCreation.step1.successful"></span>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

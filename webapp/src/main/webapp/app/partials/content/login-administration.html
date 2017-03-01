@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<div id="home" class="content-padding">
+
+    <div class="form-container" data-ng-controller="LoginController">
+        <span class="headline">Login</span>
+        <hr/>
+        <form data-ng-submit="login('administration.home')">
+            <div class="input-container">
+                <label for="email" data-locale-string="administration.login.email"></label>
+                <input id="email" type="text" data-ng-model="user.username" data-error-aware name="email"/>
+            </div>
+            <div class="input-container">
+                <label for="password" data-locale-string="administration.login.password"></label>
+                <input id="password" type="password" data-ng-model="user.password" data-error-aware name="password"/>
+            </div>
+            <div class="input-container" style="text-align: right;">
+                <div class="registration-link" style="float: left;">
+                    <a class="link" data-ui-sref="administration-registration">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.login.registration"></span>
+                    </a>
+                </div>
+                <div class="registration-link" style="float: left; clear: both;">
+                    <a class="link" data-ui-sref="password-recovery-init">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.login.passwordRecovery"></span>
+                    </a>
+                </div>
+                <input class="form-button" style="float: none" type="submit" value="{{ 'administration.login.proceed' | localized}}"/>
+            </div>
+        </form>
+    </div>
+</div>

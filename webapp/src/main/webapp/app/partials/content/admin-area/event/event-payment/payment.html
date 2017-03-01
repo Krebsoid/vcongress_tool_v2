@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<div id="event-payment" class="content-padding" data-ng-controller="OrderController">
+    <div class="form-container">
+        <span class="headline">
+            <span data-locale-string="administration.eventPublish.payment.headline"></span> {{ event.name }}
+        </span>
+        <div class="transaction-list">
+            <div class="transaction">
+                <div class="transaction-summary">
+                    <div>
+                        <span data-locale-string="participant.payment.transaction.summary"></span>
+                        <span style="float: right">
+                            <span data-ng-show="transaction.transactionStatus == 'COMPLETED' || transaction.transactionStatus == 'CREDIT'" class="glyphicon glyphicon-ok green"></span>
+                            <span data-ng-show="transaction.transactionStatus != 'COMPLETED' && transaction.transactionStatus != 'CREDIT'" class="glyphicon glyphicon-remove red"></span>
+                            <span data-ng-show="transaction.transactionStatus == 'COMPLETED'" data-locale-string="participant.payment.transaction.completed"></span>
+                            <span data-ng-show="transaction.transactionStatus == 'FIXED'" data-locale-string="participant.payment.transaction.fixed"></span>
+                            <span data-ng-show="transaction.transactionStatus == 'PENDING'" data-locale-string="participant.payment.transaction.pending"></span>
+                            <span data-ng-show="transaction.transactionStatus == 'CREDIT'" data-locale-string="participant.payment.transaction.credit"></span>
+                            <span data-ng-show="transaction.transactionStatus == 'CANCELED'" data-locale-string="participant.payment.transaction.canceled"></span>
+                        </span>
+                    </div>
+                    <div class="transaction-summary-subline">
+                        <span data-ng-show="transaction.paymentMethod == 'NONE' && transaction.transactionStatus != 'CREDIT'">
+                            <span data-locale-string="participant.payment.transaction.choosePaymentMethod"></span>
+                        </span>
+                        <span data-ng-show="transaction.paymentMethod != 'NONE' && transaction.transactionStatus != 'CREDIT'">
+                            <span data-locale-string="participant.payment.transaction.paymentMethod"></span>
+                            <span data-ng-show="transaction.paymentMethod == 'BANK_TRANSFER'" data-locale-string="participant.payment.transaction.banktransfer"></span>
+                            <span data-ng-show="transaction.paymentMethod == 'PAYPAL'" data-locale-string="participant.payment.transaction.paypal"></span>
+                        </span>
+                        <span class="badge badge-green" style="float: right;">{{ transaction.price | currency:'' }} &euro;</span>
+                    </div>
+                </div>
+                <div class="transaction-item-list">
+                    <div class="transaction-item" data-ng-class="{ cancelled : container.cancelled }"
+                         data-ng-repeat="container in transaction.paymentItemContainer | orderBy:'price':true">
+                        <div class="transaction-item-column amount"><span class="badge badge-black">{{ container.amount }}</span></div>
+                        <div class="transaction-item-column name"><span>{{ container.paymentItem.name }}<br/> <small>{{ container.paymentItem.description }}</small></span></div>
+                        <div class="transaction-item-column price"><span class="badge badge-green">{{ container.price | currency:'' }} &euro;</span></div>
+                    </div>
+                </div>
+                <div class="transaction-control">
+                    <div data-ng-show="transaction.paymentMethod == 'NONE' && transaction.transactionStatus != 'CREDIT'">
+                        <a class="action-button" data-ng-click="initPaymentViaBankTransfer(transaction)">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span>
+                            <span data-waiting-message="{{ 'participant.payment.transaction.bankTransferInProgress' | localized }}" data-waiting-message-guard="bankTransferInProgress">
+                                <span data-locale-string="participant.payment.transaction.banktransfer"></span>
+                            </span>
+                        </a>
+                        <a class="action-button" data-ng-click="initPaymentViaPayPal(transaction)">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span>
+                            <span data-waiting-message="{{ 'participant.payment.transaction.paypalInProgress' | localized }}" data-waiting-message-guard="paypalInProgress">
+                                <span data-locale-string="participant.payment.transaction.paypal"></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div data-ng-show="transaction.paymentMethod != 'NONE' && transaction.transactionStatus != 'CREDIT'">
+                        <a class="action-button" data-ng-href="app/api/order/{{transaction.id}}/invoice" target="_blank">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span><span data-locale-string="participant.payment.transaction.printInvoice"></span>
+                        </a>
+                    </div>
+                    <div data-ng-show="transaction.paymentMethod == 'NONE' && transaction.transactionStatus == 'CREDIT'">
+                        <a class="action-button" data-ng-href="app/api/order/{{transaction.id}}/invoice" target="_blank">
+                            <span class="glyphicon glyphicon-euro glyphicon-margin"></span><span data-locale-string="participant.payment.transaction.printCredit"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link"  data-ng-show="!bankTransferSuccess"
+                   data-ui-sref="administration.event.event-editation({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;" data-ng-show="bankTransferSuccess"
+               data-ui-sref="administration.event.event-editation({event: event.identifier})">
+                <span data-locale-string="administration.eventPublish.payment.proceedToAdministration"></span>
+            </a>
+        </div>
+    </div>
+    <div data-ng-include="'partials/components/event/payment/invoice-address-modal.html'" data-ng-if="invoiceAddressCheckModal"></div>
+</div>

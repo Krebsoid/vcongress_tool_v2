@@ -1,0 +1,10 @@
+<div class="sub-topic-item" data-ng-repeat="eventItem in eventFeature.eventItems">
+    <div class="event-feature-chart-container" style="">
+        <div class="filled-bar" style="width: {{ eventItem.percentage}}%;"></div>
+        <div class="empty-bar" data-ng-show="eventItem.withLimit"
+             style="width: {{ 100 - eventItem.percentage }}%;"></div>
+        <div class="event-item-label-container" data-tooltip="{{ eventItem.name }}">
+            {{ eventItem.actual }} <span data-ng-show="(!!eventItem.max)"> / {{ eventItem.max}}</span> - {{ eventItem.name }}
+        </div>
+    </div>
+</div>

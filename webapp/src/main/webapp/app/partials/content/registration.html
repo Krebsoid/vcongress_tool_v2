@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<div id="registration" class="content-padding" data-ng-controller="AdminRegistrationController">
+
+    <div class="form-container">
+        <span class="headline" data-locale-string="common.registration"></span>
+        <hr/>
+        <form>
+            <div class="input-container">
+                <label for="firstName" data-locale-string="administration.registration.firstName"></label>
+                <input id="firstName" type="text" data-ng-model="person.firstName" data-error-aware name="firstName"/>
+            </div>
+            <div class="input-container">
+                <label for="lastName" data-locale-string="administration.registration.lastName"></label>
+                <input id="lastName" type="text" data-ng-model="person.lastName" data-error-aware name="lastName"/>
+            </div>
+            <div class="input-container">
+                <label for="email" data-locale-string="administration.registration.email"></label>
+                <input id="email" type="text" data-ng-model="person.email" data-error-aware name="email"/>
+            </div>
+            <div class="input-container">
+                <label for="emailRetype" data-locale-string="administration.registration.emailRetype"></label>
+                <input id="emailRetype" type="text" data-ng-model="person.emailRetype" data-error-aware name="email"/>
+            </div>
+            <div class="input-container">
+                <label for="password" data-locale-string="administration.registration.password"></label>
+                <input id="password" type="password" data-ng-model="person.password" data-error-aware name="password"/>
+            </div>
+            <div class="input-container">
+                <label for="passwordRetype" data-locale-string="administration.registration.passwordRetype"></label>
+                <input id="passwordRetype" type="password" data-ng-model="person.passwordRetype" data-error-aware name="password"/>
+            </div>
+            <div class="input-container">
+                <div class="registration-link clearfix" style="float: left;">
+                    <a class="link" data-ui-sref="administration-login">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        <span data-locale-string="administration.registration.back"></span>
+                    </a>
+                </div>
+                <input class="form-button" data-ng-click="register();" type="submit" value="{{ 'administration.registration.register' | localized}}"/>
+            </div>
+        </form>
+    </div>
+
+    <div style="width: 100%; text-align: center; padding: 20px 0;">
+        <span style="color: green; font-weight: bold;" data-ng-show="registrationSuccessful" data-locale-string="administration.registration.registrationSuccessful"></span>
+    </div>
+
+</div>

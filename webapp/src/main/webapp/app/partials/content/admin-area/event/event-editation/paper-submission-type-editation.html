@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="SubmissionTypeFeatureController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline">Submission Type</span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+            <a class="btn btn-danger" style="margin: 10px; position: absolute; right: 9px; top: 7px;" data-tooltip title="Keine Art der Einreichung anbieten"
+               data-ng-click="removeEventFeature(paperFeature.id);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <div>
+                <table class="table table-striped cancellation-table">
+                    <tr>
+                        <th style="text-align: center;">Bezeichnung der Art der Einreichung</th>
+                        <th style="text-align: center">
+                            <a class="btn btn-success" data-tooltip title="Art der Einreichung hinzufügen" data-ng-click="addSubmissionType()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr data-ng-repeat="submissionType in paperFeature.submissionTypes | orderBy:'id' ">
+                        <td class="participant-status">
+                            <div data-ng-show="!submissionType.editMode">
+                                <span data-ng-bind="submissionType.name"></span>
+                            </div>
+                            <div data-ng-show="submissionType.editMode">
+                                <input type="text" data-error-aware data-ng-model="submissionType.name"
+                                       data-focus-input="submissionType.editMode"
+                                       data-on-enter="updateSubmissionType(submissionType)">
+                            </div>
+                        </td>
+                        <td class="interactions">
+                            <div data-ng-show="!submissionType.editMode">
+                                <a class="btn btn-info" data-tooltip title="Art der Einreichung bearbeiten" data-ng-click="submissionType.editMode = !submissionType.editMode">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip title="Art der Einreichung löschen" data-ng-click="removeSubmissionType(submissionType)">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                            <div data-ng-show="submissionType.editMode">
+                                <a class="btn btn-success" data-tooltip title="Art der Einreichung speichern" data-ng-click="updateSubmissionType(submissionType)">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip title="Bearbeitung abbrechen" data-ng-click="submissionType.editMode = !submissionType.editMode">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

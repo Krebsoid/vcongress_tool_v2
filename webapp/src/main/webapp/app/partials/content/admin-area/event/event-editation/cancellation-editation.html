@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<div id="dinner-creation" data-ng-controller="CancellationController">
+    <div class="form-container">
+        <div data-ng-click="initialOpen = !initialOpen; editationSuccessful = false;" style="margin-bottom: 10px; cursor: pointer;">
+            <span data-ng-show="!initialOpen" class="glyphicon glyphicon-chevron-down" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span data-ng-show="initialOpen" class="glyphicon glyphicon-chevron-up" style="margin: 10px; position: absolute; left: 0; top: 0; font-size: 54px; color: #565656"></span>
+            <span class="headline" data-locale-string="administration.eventEditation.cancellation.headline"></span><br/>
+            <span class="subheadline" data-ng-bind=""></span>
+            <a class="btn btn-danger" style="margin: 10px; position: absolute; right: 9px; top: 7px;" data-tooltip
+               data-original-title="Stornierungsgebühren entfernen"
+               data-ng-click="removeEventFeature(cancellationFeature.id);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <div data-ng-hide="!initialOpen">
+            <p>
+                <span data-locale-string="administration.eventEditation.cancellation.description1"></span>
+                <span style="font-weight: bold">{{ event.startDate | date }}</span><br/>
+                <span data-locale-string="administration.eventEditation.cancellation.description2"></span>
+            </p>
+            <div>
+                <table class="table table-striped cancellation-table">
+                    <tr>
+                        <th style="text-align: center;"><span data-locale-string="administration.eventEditation.cancellation.dayLimit"></span> </th>
+                        <th style="text-align: center;"><span data-locale-string="administration.eventEditation.cancellation.cancellationFee"></span> </th>
+                        <th style="text-align: center;"><span data-locale-string="administration.eventEditation.cancellation.deadline"></span> </th>
+                        <th style="text-align: center">
+                            <a class="btn btn-success" data-tooltip data-original-title="{{ 'administration.eventEditation.cancellation.addCancellationFee' | localized }}" data-ng-click="addCancellation()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr data-ng-repeat="cancellation in cancellationFeature.cancellations | orderBy:'dayLimit':true ">
+                        <td class="participant-status">
+                            <div data-ng-show="!cancellation.editMode">
+                                <span data-ng-bind="cancellation.dayLimit"></span> <span data-locale-string="administration.eventEditation.cancellation.days"></span>
+                            </div>
+                            <div data-ng-show="cancellation.editMode">
+                                <input type="number" data-error-aware data-ng-model="cancellation.dayLimit">
+                            </div>
+                        </td>
+                        <td>
+                            <div data-ng-show="!cancellation.editMode">
+                                <span data-ng-bind="cancellation.percentage"></span> %
+                            </div>
+                            <div data-ng-show="cancellation.editMode">
+                                <input type="number" data-error-aware data-ng-model="cancellation.percentage">
+                            </div>
+                        </td>
+                        <td>
+                            <span data-ng-bind="cancellation.deadline | date"></span>
+                        </td>
+                        <td class="interactions">
+                            <div data-ng-show="!cancellation.editMode">
+                                <a class="btn btn-info" data-tooltip data-original-title="{{ 'administration.eventEditation.cancellation.editCancellationFee' | localized }}" data-ng-click="cancellation.editMode = !cancellation.editMode">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip data-original-title="{{ 'administration.eventEditation.cancellation.deleteCancellationFee' | localized }}" data-ng-click="removeCancellation(cancellation)">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                            <div data-ng-show="cancellation.editMode">
+                                <a class="btn btn-success" data-tooltip data-original-title="{{ 'administration.eventEditation.cancellation.editCancellationFee' | localized }}" data-ng-click="updateCancellation(cancellation)">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                                <a class="btn btn-danger" data-tooltip data-original-title="{{ 'administration.eventEditation.cancellation.cancelEditation' | localized }}" data-ng-click="cancellation.editMode = !cancellation.editMode">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

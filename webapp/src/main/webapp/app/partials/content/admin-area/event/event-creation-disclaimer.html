@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="DisclaimerController">
+    <div class="form-container">
+        <span class="event-creation-headline" data-locale-string="administration.eventCreation.step2.headline"></span>
+        <hr/>
+        <span data-locale-string="administration.eventCreation.step2.description"></span>
+        <hr data-ng-if="editMode"/>
+        <form>
+            <div data-ng-if="editMode">
+                <div class="input-container">
+                    <label for="disclaimer">
+                        <span data-locale-string="administration.eventCreation.step2.disclaimerText"></span>
+                    </label>
+                    <textarea id="disclaimer" class="full-width" name="disclaimer.content" data-ng-model="disclaimer.content"></textarea>
+                </div>
+                <div class="input-container">
+                    <input class="form-button" style="margin-left: 10px;"
+                           data-ng-click="exitEditDisclaimer();" type="submit" value="{{ 'common.cancel' | localized }}"/>
+                    <input class="form-button" data-ng-click="updateDisclaimer();" type="submit"
+                           value="{{ 'administration.eventCreation.step2.saveDisclaimer' | localized }}"/>
+                </div>
+            </div>
+        </form>
+        <hr/>
+        <div>
+            <table class="table table-striped">
+                <tr data-ng-repeat="disclaimer in disclaimerList | orderBy:'id' ">
+                    <td class="participant-status">
+                        <span class="preserve-whitespace" data-ng-bind-html="trustyHtml(disclaimer.content)"></span>
+                        <span data-ng-if="disclaimer.mandatory">*</span>
+                    </td>
+                    <td class="interactions">
+                        <a class="btn btn-info" data-tooltip data-original-title="{{ 'administration.eventCreation.step2.editDisclaimer' | localized }}"
+                           data-ng-click="startEditDisclaimer(disclaimer);">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div data-ng-include="'./partials/content/admin-area/event/event-editation/event-logo-upload.html'"></div>
+
+    <div data-ng-include="'./partials/content/admin-area/event/event-editation/cancellation-editation.html'" data-ng-if="eventService.isModuleSelected('ACCOUNT')"></div>
+
+    <div data-ng-include="'./partials/content/admin-area/event/event-editation/bank-account-editation.html'" data-ng-if="eventService.isModuleSelected('ACCOUNT')"></div>
+
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.event-creation.general({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;"
+               data-ui-sref="administration.event-creation.participation({event: event.identifier})">
+                <span data-locale-string="common.nextStep"></span>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<div id="user-edit" data-ng-controller="AdminEditController">
+    <div class="form-container">
+        <span class="headline" data-locale-string="participant.registration.headline2"></span>
+        <hr/>
+        <form>
+            <div class="input-container">
+                <label for="gender" data-locale-string="admin.registration.gender"></label>
+                <div class="gender-container">
+                    <div class="female" data-original-title="{{ 'participant.registration.female' | localized }}" data-remote-error-aware="gender" data-remote-error-model="data.gender"
+                         data-tooltip data-ng-click="data.gender = 'FEMALE'" data-ng-class="checkGender('FEMALE')"></div>
+                    <div class="male" data-original-title="{{ 'participant.registration.male' | localized }}" data-remote-error-aware="gender" data-remote-error-model="data.gender"
+                         data-tooltip data-ng-click="data.gender = 'MALE'" data-ng-class="checkGender('MALE')"></div>
+                </div>
+                <input id="gender" type="text" data-ng-model="data.gender" style="display: none;"
+                       data-error-aware name="gender">
+            </div>
+            <div class="input-container">
+                <label for="title" data-locale-string="admin.registration.title"></label>
+                <select id="title" data-ng-options="title as title for title in titles" data-ng-model="data.title" data-error-aware name="title"></select>
+            </div>
+            <div class="input-container">
+                <label for="firstName" data-locale-string="admin.registration.firstName"></label>
+                <input id="firstName" type="text" data-error-aware data-ng-model="data.firstName" name="firstName"/>
+            </div>
+            <div class="input-container">
+                <label for="lastName" data-locale-string="admin.registration.lastName"></label>
+                <input id="lastName" type="text" data-error-aware data-ng-model="data.lastName" name="lastName"/>
+            </div>
+            <hr/>
+            <div class="input-container">
+                <label for="street" data-locale-string="admin.registration.street"></label>
+                <input id="street" type="text" data-ng-model="data.address.street" data-error-aware name="street"/>
+            </div>
+            <div class="input-container">
+                <label for="zipCode" data-locale-string="admin.registration.zip"></label>
+                <input id="zipCode" type="text" data-ng-model="data.address.zipCode" data-error-aware name="zipCode"/>
+            </div>
+            <div class="input-container">
+                <label for="city" data-locale-string="admin.registration.city"></label>
+                <input id="city" type="text" data-ng-model="data.address.city" data-error-aware name="city"/>
+            </div>
+            <div class="input-container">
+                <label for="state" data-locale-string="admin.registration.state"></label>
+                <select id="state" data-ng-options="state as state for state in states" data-ng-model="data.address.state" data-error-aware name="state"></select>
+            </div>
+            <div class="input-container">
+                <label for="country" data-remote-error-aware="country" data-remote-error-model="data.address.country.isoCode">
+                    <span data-locale-string="admin.registration.country"></span>
+                </label>
+                <select id="country" data-ng-options="country.isoCode as country.name for country in countries"
+                        data-ng-model="data.address.country.isoCode" data-remote-error-aware="country"
+                        data-remote-error-model="data.address.country.isoCode"></select>
+            </div>
+            <hr/>
+
+            <div class="input-container">
+                <label for="position" data-locale-string="admin.registration.position"></label>
+                <input id="position" type="text" data-ng-model="data.occupation.position" data-error-aware name="position"/>
+            </div>
+            <div class="input-container">
+                <label for="institute" data-locale-string="admin.registration.institute"></label>
+                <input id="institute" type="text" data-ng-model="data.occupation.institute" data-error-aware name="institute"/>
+            </div>
+            <div class="input-container">
+                <label for="department" data-locale-string="admin.registration.department"></label>
+                <input id="department" type="text" data-ng-model="data.occupation.department" data-error-aware name="department"/>
+            </div>
+            <div class="input-container">
+                <label for="phone" data-locale-string="admin.registration.phone"></label>
+                <input id="phone" type="text" data-ng-model="data.contact.phone" data-error-aware name="phone"/>
+            </div>
+            <div class="input-container">
+                <label for="fax" data-locale-string="admin.registration.fax"></label>
+                <input id="fax" type="text" data-ng-model="data.contact.fax" data-error-aware name="fax"/>
+            </div>
+            <hr/>
+            <div class="input-container">
+                <label for="email" data-locale-string="admin.registration.email"></label>
+                <input id="email" type="text" data-error-aware data-ng-model="data.email" name="email"/>
+            </div>
+            <hr/>
+            <div class="input-container">
+                <div class="registration-link clearfix" style="float: left;">
+                    <a class="link" data-ui-sref="{{ backlink }}">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        <span data-locale-string="participant.registration.back"></span>
+                    </a>
+                </div>
+                <input class="form-button" data-ng-click="edit();" type="submit" value="{{ 'participant.registration.save' | localized }}"/>
+            </div>
+        </form>
+    </div>
+    <div style="width: 100%; text-align: center; padding: 20px 0;">
+        <span style="color: green; font-weight: bold;" data-ng-show="editationSuccessful" data-locale-string="participant.registration.success"></span>
+    </div>
+</div>

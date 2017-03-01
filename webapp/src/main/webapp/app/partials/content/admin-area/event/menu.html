@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<div class="menu">
+    <div class="menu-container">
+        <div class="menu-item" data-restricted-roles="ADMIN,CUSTOMER">
+            <a data-ui-sref="administration.event.event-editation">
+                <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+                <span data-locale-string="administration.menu.editEvent"></span>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a data-ui-sref="administration.event.participant-list" data-restricted-event="MITARBEITER,ORGANISATOR">
+                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                <span data-locale-string="administration.menu.participantList"></span>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a data-ui-sref="administration.event.transaction-list" data-restricted-event="MITARBEITER,ORGANISATOR">
+                <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+                <span data-locale-string="administration.menu.transactionList"></span>
+            </a>
+        </div>
+    </div>
+</div> 

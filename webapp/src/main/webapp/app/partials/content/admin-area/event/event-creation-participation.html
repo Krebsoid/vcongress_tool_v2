@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<div id="event-creation-participation" data-ng-controller="EventInfoController">
+    <div class="form-container">
+        <span class="event-creation-headline" data-locale-string="administration.eventCreation.step3.headline"></span>
+        <hr/>
+        <span style="display: inline-block; margin-bottom: 15px;">
+            <strong data-locale-string="administration.eventCreation.step3.description"></strong>
+        </span>
+    </div>
+
+    <div data-ng-repeat="eventFeature in event.eventFeatures | orderBy:'id'">
+        <div data-ng-if="eventFeature.eventFeatureType === 'PARTICIPANT_STATUS'" data-initial-open="true" data-participant-status-creation="{{ eventFeature.id }}"></div>
+    </div>
+
+    <div class="form-container">
+        <div class="input-container clearfix" style="width: 95%">
+            <div class="registration-link" style="float: left;">
+                <a class="link" data-ui-sref="administration.event-creation.disclaimer({event: event.identifier})">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span data-locale-string="common.back"></span>
+                </a>
+            </div>
+            <a class="form-button" style="margin-left: 5px;" data-ui-sref="administration.event-creation.additional-program({event: event.identifier})">
+                <span data-locale-string="common.nextStep"></span>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<div id="overview" data-ng-controller="AdministrationDashboardController">
+
+    <h1>Dashboard</h1>
+
+    <div data-ng-show="!user.activated">
+        <hr/>
+        <div class="alert alert-danger">
+            <strong>Warning!</strong> Your account is not verified yet, via the link in the registration email you received upon registration. <br/>
+            You cannot publish events until you verified your account.
+        </div>
+    </div>
+
+
+    <div class="event-container-wrapper">
+        <div class="event-container" data-ng-repeat="event in events" data-ng-show="!event.deleted">
+            <div class="event-status-container">
+                <div class="event-status-icon green" data-tooltip data-original-title="{{ 'administration.dashboard.registrationRunning' | localized }}"
+                     data-ng-if="event.status == 'PUBLISHED'"></div>
+                <div class="event-status-icon yellow" data-tooltip data-original-title="{{ 'administration.dashboard.registrationTestmode' | localized }}"
+                     data-ng-if="event.status == 'TESTMODE'"></div>
+                <div class="event-status-icon red" data-tooltip data-original-title="{{ 'administration.dashboard.registrationClosed' | localized }}"
+                     data-ng-if="event.status == 'CLOSED'"></div>
+                <div class="event-status-icon red" data-tooltip data-original-title="{{ 'administration.dashboard.registrationEdit' | localized }}"
+                     data-ng-if="event.status == 'CREATED'"></div>
+            </div>
+            <a class="btn btn-danger" style="margin: 10px; position: absolute; right: 0; top: 0;" data-tooltip data-original-title="{{ 'administration.dashboard.deleteEvent' | localized }}"
+               data-ng-click="removeEvent(event);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <a class="btn btn-info" style="margin: 10px; position: absolute; right: 25px; top: 0;" data-tooltip data-original-title="{{ 'administration.dashboard.archiveEvent' | localized }}"
+               data-ng-click="archiveEvent(event);" data-ng-show="event.status == 'CLOSED'">
+                <span class="glyphicon glyphicon-folder-close"></span>
+            </a>
+            <div class="header" data-tooltip="{{ event.name }}">
+                <span data-ng-bind="event.name | shorten:30"></span>
+            </div>
+            <div class="content">
+                <div class="topic">
+                    <span class="glyphicon glyphicon-user" data-tooltip data-original-title="{{ 'administration.dashboard.registeredParticipants' | localized }}"></span>
+                    <span data-ng-bind="event.participants" style="margin-right: 15px"></span>
+                    <span data-ng-show="eventService.isModuleSelectedForEvent(event, 'ACCOUNT')">
+                        <span class="glyphicon glyphicon-euro" style="color: green" data-tooltip data-original-title="{{ 'administration.dashboard.paidParticipants' | localized }}"></span>
+                        <span data-ng-bind="event.participantsPaid" style="color: green; margin-right: 15px"></span>
+                    </span>
+                    <span class="glyphicon glyphicon-calendar" data-tooltip data-original-title="{{ 'administration.dashboard.endOfRegistration' | localized }}"></span>
+                    <span data-ng-bind="event.registrationEnd | date"></span>
+                </div>
+                <div class="modules">
+                    <span>
+                        Selected modules:
+                    </span>
+                    <span data-ng-show="eventService.isModuleSelectedForEvent(event, 'REGISTRATION')">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true" data-tooltip data-original-title="Registration"></span>
+                    </span>
+                    <span data-ng-show="eventService.isModuleSelectedForEvent(event, 'ACCOUNT')">
+                        <span class="glyphicon glyphicon-euro" aria-hidden="true" data-tooltip data-original-title="Account"></span>
+                    </span>
+                    <span data-ng-show="eventService.isModuleSelectedForEvent(event, 'ABSTRACT')">
+                         <span class="glyphicon glyphicon-book" aria-hidden="true" data-tooltip data-original-title="Abstract"></span>
+                    </span>
+                    <span data-ng-show="eventService.isModuleSelectedForEvent(event, 'WEB')">
+                         <span class="glyphicon glyphicon-globe" aria-hidden="true" data-tooltip data-original-title="Web"></span>
+                    </span>
+                </div>
+                <div class="sub-topic sub-topic-container" data-ng-repeat="eventFeature in event.eventFeatures">
+                    {{ eventFeature.label }}
+                    <div data-event-feature-chart="eventFeature"></div>
+                </div>
+            </div>
+            <div class="links">
+                <div class="registration-link" style="float: left;">
+                    <a class="link" data-ui-sref="administration.event.participant-list({event: event.identifier})"
+                       data-ng-show="hasPermission(event.identifier, ['MITARBEITER','ORGANISATOR'])">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.dashboard.participantList"></span>
+                    </a>
+                </div>
+                <div data-ng-show="!event.shortVersion" class="registration-link" style="float: left; clear: both;">
+                    <a class="link" data-ui-sref="administration.event.transaction-list({event: event.identifier})"
+                       data-ng-show="hasPermission(event.identifier, ['MITARBEITER', 'ORGANISATOR'])">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.dashboard.transactionList"></span>
+                    </a>
+                </div>
+                <div class="registration-link" style="float: left; clear: both;">
+                    <a class="link" data-ui-sref="administration.event.event-editation({event: event.identifier})"
+                       data-ng-show="hasPermission('system', ['ADMIN']) || hasPermission(event.identifier, ['ORGANISATOR'])">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.dashboard.editEvent"></span>
+                    </a>
+                </div>
+                <div class="registration-link" style="float: left; clear: both;">
+                    <a class="link" data-ng-href="{{ event.link }}" target="_blank">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span data-locale-string="administration.dashboard.linkToEvent"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

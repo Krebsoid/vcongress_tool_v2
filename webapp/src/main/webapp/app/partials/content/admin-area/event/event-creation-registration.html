@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<div id="event-creation">
+    <div class="form-container" data-ng-controller="EventCreationController">
+        <span class="headline">Neue Veranstaltung anlegen</span><br/>
+        <span class="sub-headline">2. Schritt: Registrierungsmaske für Ihre Teilnehmer definieren</span>
+        <hr/>
+        <span>
+            <strong>Wichtiger Hinweis!</strong> Folgende Daten werden in vCongress standardmäßig von Ihren Teilnehmer abgefragt und
+            können nicht geändert werden: Geschlecht*, Titel (Klappliste: Prof., Dr., PhD, MD), Vorname*, Nachname*,
+            Straße*, PLZ*, Stadt*, Land* (Klappliste), Position, Einrichtung/ Affiliation*, Abteilung, Telefon*, Fax, Emailadresse*, Passwort* zur Anmeldung.
+            <br/>
+            <br/>
+            Die mit Sternchen gekennzeichneten Felder sind Pflichtfelder.
+        </span>
+        <hr/>
+        <form>
+            Möchten Sie zu diesen Feldern noch zusätzliche Abfragen ergänzen?<br/>
+            <div class="input-container">
+                <button class="form-button" style="margin-left: 5px;" data-ng-click="nextStep();">Ja</button>
+                <button class="form-button" style="margin-left: 5px;" data-ng-click="nextStep();">Nein</button>
+            </div>
+            <div class="input-container">
+                <div class="registration-link clearfix" style="float: left;">
+                    <a class="link" data-ui-sref="administration.dashboard">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        zurück
+                    </a>
+                </div>
+                <button class="form-button" style="margin-left: 5px;" data-ng-click="nextStep();">nächster Schritt</button>
+                <input class="form-button" data-ng-click="create();" type="submit" value="speichern"/>
+            </div>
+        </form>
+    </div>
+    <div style="width: 100%; text-align: center; padding: 20px 0;">
+        <span style="color: green; font-weight: bold;" data-ng-show="creationSuccessful">Aktualisierung der Daten erfolgreich.</span>
+    </div>
+</div>

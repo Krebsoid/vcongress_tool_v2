@@ -1,0 +1,30 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <deployment>
+        <dependencies>
+            <module name="org.joda.time"/>
+
+            <module name="org.codehaus.jackson.jackson-core-asl"/>
+            <module name="org.codehaus.jackson.jackson-jaxrs"/>
+            <module name="org.codehaus.jackson.jackson-mapper-asl"/>
+            <module name="org.codehaus.jackson.jackson-xc"/>
+
+            <module name="com.google.guava"/>
+
+            <module name="org.apache.commons.io"/>
+            <module name="org.apache.commons.beanutils"/>
+            <module name="org.apache.commons.lang"/>
+            <module name="org.jboss.ws.cxf.jbossws-cxf-client" services="import" />
+            <module name="org.apache.cxf.impl">
+                <imports>
+                    <include path="META-INF"/>
+                    <include path="META-INF/cxf"/>
+                </imports>
+            </module>
+
+            <module name="org.slf4j"/>
+            <module name="org.slf4j.impl"/>
+
+            <module name="org.dom4j"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

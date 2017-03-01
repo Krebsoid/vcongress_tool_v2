@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<div id="dashboard" class="content-padding">
+
+    <div class="main-navigation clearfix">
+        <div class="dashboard-item">
+            <a data-ui-sref="administration.user-list">
+                <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+                Dashboard
+            </a>
+        </div>
+    </div>
+    <div class="main-navigation clearfix">
+        <div class="dashboard-item">
+            <a data-ui-sref="administration.user-list">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                Benutzer
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a data-ui-sref="administration.event-list">
+                <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+                Veranstaltungen
+            </a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="main-navigation clearfix">
+        <div class="dashboard-item">
+            <a data-ui-sref="administration.event-creation">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Neue Veranstaltung
+            </a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="main-navigation clearfix">
+        <div class="dashboard-item">
+            <a data-ui-sref="administration.user-edit">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                Konto bearbeiten
+            </a>
+        </div>
+        <div class="dashboard-item" data-ng-controller="LogoutController">
+            <a href="#" data-ng-click="logout('administration-home')">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                Abmelden
+            </a>
+        </div>
+    </div>
+
+</div>

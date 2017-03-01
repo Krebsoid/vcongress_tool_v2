@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<div data-ng-controller="ExternalEventController" style="text-align: center; margin-top: 20px;">
+    <img data-ng-src="{{ event.eventLogo.linkLarge }}"/>
+</div>
+<div id="event-registration" class="content-padding"  data-ng-class="{testmode : event.eventStatus === 'TESTMODE'}" data-ng-controller="EventRegistrationController">
+
+    <div class="form-container">
+        <span class="headline" data-locale-string="participant.registration.headline"></span>
+        <div data-event-info="event"></div>
+        <hr/>
+        <form>
+            <fieldset>
+                <legend data-locale-string="participant.registration.personalInformation"></legend>
+                <div class="input-container">
+                    <label for="gender" data-locale-string="participant.registration.gender"></label>
+                    <div class="gender-container">
+                        <div class="female" data-original-title="{{ 'participant.registration.female' | localized }}" data-remote-error-aware="gender" data-remote-error-model="person.gender"
+                             data-tooltip data-ng-click="person.gender = 'FEMALE'" data-ng-class="checkGender('FEMALE')"></div>
+                        <div class="male" data-original-title="{{ 'participant.registration.male' | localized }}" data-remote-error-aware="gender" data-remote-error-model="person.gender"
+                             data-tooltip data-ng-click="person.gender = 'MALE'" data-ng-class="checkGender('MALE')"></div>
+                    </div>
+                    <input id="gender" type="text" data-ng-model="person.gender" style="display: none;"
+                           data-error-aware name="gender">
+                </div>
+                <div class="input-container">
+                    <label for="title" data-locale-string="participant.registration.title"></label>
+                    <select id="title" data-ng-options="title as title for title in titles" data-ng-model="person.title" data-error-aware name="title"></select>
+                </div>
+                <div class="input-container">
+                    <label for="firstName" data-locale-string="participant.registration.firstName"></label>
+                    <input id="firstName" type="text" data-ng-model="person.firstName" data-error-aware name="firstName"/>
+                </div>
+                <div class="input-container">
+                    <label for="lastName" data-locale-string="participant.registration.lastName"></label>
+                    <input id="lastName" type="text" data-ng-model="person.lastName" data-error-aware name="lastName"/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend data-locale-string="participant.registration.address"></legend>
+                <div class="input-container">
+                    <label for="street" data-locale-string="participant.registration.street"></label>
+                    <input id="street" type="text" data-ng-model="person.street" data-error-aware name="street"/>
+                </div>
+                <div class="input-container">
+                    <label for="zipCode" data-locale-string="participant.registration.zip"></label>
+                    <input id="zipCode" type="text" data-ng-model="person.zipCode" data-error-aware name="zipCode"/>
+                </div>
+                <div class="input-container">
+                    <label for="city" data-locale-string="participant.registration.city"></label>
+                    <input id="city" type="text" data-ng-model="person.city" data-error-aware name="city"/>
+                </div>
+                <div class="input-container">
+                    <label for="state" data-locale-string="participant.registration.state"></label>
+                    <select id="state" data-ng-options="state as state for state in states" data-ng-model="person.state" data-error-aware name="state"></select>
+                </div>
+                <div class="input-container">
+                    <label for="country" data-locale-string="participant.registration.country"></label>
+                    <select id="country" data-ng-options="country.isoCode as country.name for country in countries" data-ng-model="person.country" data-error-aware name="country"></select>
+                </div>
+            </fieldset>
+            <div class="input-container" style="margin: 15px">
+                <label data-locale-string="participant.registration.differentInvoiceAddress" style="width: 58%;"></label>
+                <button class="form-button" style="float: none" data-ng-click="enableDifferentInvoiceAddress()"
+                        data-ng-class="{disabled: !differentInvoiceAddress}"
+                        data-locale-string="participant.registration.yes"></button>
+                <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="disableDifferentInvoiceAddress()"
+                        data-ng-class="{disabled: differentInvoiceAddress}"
+                        data-locale-string="participant.registration.no"></button>
+            </div>
+            <div data-ng-if="differentInvoiceAddress" style="margin-top: 10px">
+                <fieldset>
+                    <legend data-locale-string="participant.registration.invoiceAddress"></legend>
+                    <div class="input-container">
+                        <label for="invoiceFullName" data-locale-string="participant.registration.fullName"></label>
+                        <input id="invoiceFullName" type="text" data-ng-model="person.invoiceFullName" data-error-aware name="fullName"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceInstitute" data-locale-string="participant.registration.institute"></label>
+                        <input id="invoiceInstitute" type="text" data-ng-model="person.invoiceInstitute" data-error-aware name="invoiceInstitute"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceStreet" data-locale-string="participant.registration.street"></label>
+                        <input id="invoiceStreet" type="text" data-ng-model="person.invoiceStreet" data-error-aware name="invoiceStreet"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceZipCode" data-locale-string="participant.registration.zip"></label>
+                        <input id="invoiceZipCode" type="text" data-ng-model="person.invoiceZipCode" data-error-aware name="invoiceZipCode"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceCity" data-locale-string="participant.registration.city"></label>
+                        <input id="invoiceCity" type="text" data-ng-model="person.invoiceCity" data-error-aware name="invoiceCity"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceState" data-locale-string="participant.registration.state"></label>
+                        <select id="invoiceState" data-ng-options="state as state for state in states" data-ng-model="person.invoiceState" data-error-aware name="invoiceState"></select>
+                    </div>
+                    <div class="input-container">
+                        <label for="invoiceCountry" data-locale-string="participant.registration.country"></label>
+                        <select id="invoiceCountry" data-ng-options="country.isoCode as country.name for country in countries" data-ng-model="person.invoiceCountry" data-error-aware name="invoiceCountry"></select>
+                    </div>
+                </fieldset>
+            </div>
+            <fieldset>
+                <legend data-locale-string="participant.registration.occupationAndContact"></legend>
+                <div class="input-container">
+                    <label for="position" data-locale-string="participant.registration.position"></label>
+                    <input id="position" type="text" data-ng-model="person.position" data-error-aware name="position"/>
+                </div>
+                <div class="input-container">
+                    <label for="institute" data-locale-string="participant.registration.instituteMandatory"></label>
+                    <input id="institute" type="text" data-ng-model="person.institute" data-error-aware name="institute"/>
+                </div>
+                <div class="input-container">
+                    <label for="department" data-locale-string="participant.registration.department"></label>
+                    <input id="department" type="text" data-ng-model="person.department" data-error-aware name="department"/>
+                </div>
+                <div class="input-container">
+                    <label for="phone" data-remote-error-aware="phone" data-remote-error-model="person.phone">
+                        <span data-locale-string="participant.registration.phone"></span>
+                    </label>
+                    <span data-remote-error-aware="phone" data-remote-error-model="person.phone">
+                        <input id="phone" type="tel" data-phone-number="person.country" data-ng-model="person.phone" name="phone"/>
+                    </span>
+                </div>
+                <div class="input-container">
+                    <label for="fax" data-remote-error-aware="fax" data-remote-error-model="person.fax">
+                        <span data-locale-string="participant.registration.fax"></span>
+                    </label>
+                    <span data-remote-error-aware="fax" data-remote-error-model="person.fax">
+                        <input id="fax" type="tel" data-phone-number="person.country" data-ng-model="person.fax" name="fax"/>
+                    </span>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend data-locale-string="participant.registration.accountInformation"></legend>
+                <div class="input-container">
+                    <label for="email" data-locale-string="participant.registration.email"></label>
+                    <input id="email" type="text" data-ng-model="person.email" data-error-aware name="email" data-ng-paste="preventPaste($event)"/>
+                </div>
+                <div class="input-container">
+                    <label for="emailRetype" data-locale-string="participant.registration.emailRetype"></label>
+                    <input id="emailRetype" type="text" data-ng-model="person.emailRetype" data-error-aware name="email" data-ng-paste="preventPaste($event)"/>
+                </div>
+                <div class="input-container">
+                    <label for="password">
+                        <span data-locale-string="participant.registration.password"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'participant.registration.passwordInfo' | localized }}"></span>
+                    </label>
+                    <input id="password" type="password" data-ng-model="person.password" data-error-aware name="password" data-ng-paste="preventPaste($event)"/>
+                </div>
+                <div class="input-container">
+                    <label for="passwordRetype" data-locale-string="participant.registration.passwordRetype"></label>
+                    <input id="passwordRetype" type="password" data-ng-model="person.passwordRetype" data-error-aware name="password" data-ng-paste="preventPaste($event)"/>
+                </div>
+            </fieldset>
+            <hr/>
+            <div class="input-container" style="margin: 15px">
+                <div style="float: left">
+                    <img class="group-registration" src="images/content/registration/group-registration-button.png"
+                         data-ng-class="{disabled: !groupRegistration}"
+                         style="height: 40px; margin-right: 20px;"/>
+                </div>
+                <div style="float: left; width: 500px;">
+                    <label style="width: 70%">
+                        <span data-locale-string="participant.registration.groupRegistration"></span>
+                        <span class="glyphicon glyphicon-info-sign" data-tooltip=""
+                              data-original-title="{{ 'participant.registration.groupRegistrationDetail' | localized }}"></span>
+                    </label>
+                    <button class="form-button" style="float: none" data-ng-click="enableGroupRegistration()"
+                            data-ng-class="{disabled: !groupRegistration}"
+                            data-locale-string="participant.registration.yes"></button>
+                    <button class="form-button" style="margin-left: 10px; float: none" data-ng-click="disableGroupRegistration()"
+                            data-ng-class="{disabled: groupRegistration}"
+                            data-locale-string="participant.registration.no"></button>
+                </div>
+            </div>
+            <hr/>
+            <div>
+                <p class="small-hint" data-locale-string="participant.registration.disclaimerNotification"></p>
+            </div>
+            <div class="input-container checkbox">
+                <label for="disclaimer1" data-ng-bind-html="disclaimer1.content"></label>
+                <input type="checkbox" id="disclaimer1" data-ng-model="checkbox.disclaimer1" data-error-aware name="disclaimer1"/>
+            </div>
+            <div class="input-container checkbox">
+                <label for="disclaimer2" data-ng-bind-html="disclaimer2.content"></label>
+                <input type="checkbox" id="disclaimer2" data-ng-model="checkbox.disclaimer2" data-error-aware name="disclaimer2"/>
+            </div>
+            <div class="input-container checkbox">
+                <label for="disclaimer3" data-ng-bind-html="disclaimer3.content"></label>
+                <input type="checkbox" id="disclaimer3" data-ng-model="checkbox.disclaimer3" data-error-aware name="disclaimer3"/>
+            </div>
+            <div class="input-container checkbox">
+                <label for="disclaimer4" data-ng-bind-html="disclaimer4.content"></label>
+                <input type="checkbox" id="disclaimer4" data-ng-model="checkbox.disclaimer4" data-error-aware name="disclaimer4"/>
+            </div>
+            <div class="input-container checkbox" data-ng-if="disclaimer5Visible">
+                <label for="disclaimer5" data-ng-bind-html="disclaimer5.content"></label>
+                <input type="checkbox" id="disclaimer5" data-ng-model="checkbox.disclaimer5" data-error-aware name="disclaimer5"/>
+            </div>
+            <hr/>
+            <div class="input-container">
+                <div class="registration-link clearfix" style="float: left;">
+                    <a class="link" data-ui-sref="event.home">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        <span  data-locale-string="participant.registration.back"></span>
+                    </a>
+                </div>
+                <input class="form-button" data-ng-click="register();" type="submit" value="{{ 'participant.registration.saveAndProceed' | localized }}"/>
+            </div>
+            <div data-ng-if="errorsInForm" class="alert alert-danger" style="margin-top: 30px">
+                <span data-locale-string="participant.registration.errors"></span>
+            </div>
+        </form>
+    </div>
+    <div data-ng-include="'partials/components/event/participation/register-another-participant-info.html'" data-ng-if="registerAnotherParticipantInfoModal"></div>
+</div>

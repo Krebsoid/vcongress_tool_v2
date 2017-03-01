@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<div id="event-publish" data-ng-controller="EventController">
+    <div class="form-container">
+        <div data-ng-if="event.eventStatus === 'CREATED'">
+            <span class="headline" data-locale-string="administration.eventEditation.publish.headline"></span>
+            <hr/>
+            <form>
+                <div class="notification">
+                    <span data-locale-string="administration.eventEditation.publish.description"></span>
+                </div>
+                <div data-ng-show="!user.activated">
+                    <hr/>
+                    <div class="alert alert-danger">
+                        <strong>Warning!</strong> Your account is not verified yet, via the link in the registration email you received upon registration. <br/>
+                        You cannot publish events until you verified your account.
+                    </div>
+                </div>
+                <div class="input-container" style="text-align: center;">
+                    <a class="action-button" data-ng-click="activateTestMode();" data-locale-string="administration.eventCreation.step5.activateTestversion"></a>
+                    <a class="action-button" data-ng-class="{disabled: !user.activated}" data-ng-click="goToLicense()">
+                        <span class="glyphicon glyphicon-euro glyphicon-fix" aria-hidden="true"></span>
+                        <span data-locale-string="administration.eventCreation.step5.publishEvent"></span>
+                    </a>
+                </div>
+            </form>
+        </div>
+        <div data-ng-if="event.eventStatus === 'TESTMODE'">
+            <span class="headline" data-locale-string="administration.eventEditation.publish.headline"></span>
+            <hr/>
+            <form>
+                <div class="notification">
+                    <span style="font-size: 20px" data-locale-string="administration.eventCreation.step5.testversion"></span><br/>
+                    <span data-locale-string="administration.eventCreation.step5.testversionDescription"></span><br/>
+                    <span><a data-ng-href="{{ event.link }}" target="_blank" data-locale-string="administration.eventCreation.step5.testversionLink"></a> </span>
+                </div>
+                <div class="input-container" style="text-align: center;">
+                    <a class="action-button" data-ng-click="deactivateTestMode();" data-locale-string="administration.eventCreation.step5.deactivateTestversion"></a>
+                    <a class="action-button" data-ui-sref="administration.event.license({event: event.identifier})">
+                        <span class="glyphicon glyphicon-euro glyphicon-fix" aria-hidden="true"></span>
+                        <span data-locale-string="administration.eventCreation.step5.publishEvent"></span>
+                    </a>
+                </div>
+            </form>
+        </div>
+        <div data-ng-if="event.eventStatus === 'PUBLISHED'">
+            <span class="headline">
+                <span class="check-box checked" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span data-locale-string="administration.eventEditation.publish.headline2"></span>
+            </span>
+            <hr/>
+            <div class="notification">
+                <span data-locale-string="administration.eventEditation.publish.published"></span><br/>
+                <span><a data-ng-href="{{ event.link }}" target="_blank">{{ event.link }}</a> </span><br/><br/>
+                <span data-locale-string="administration.eventEditation.publish.publishedDescription"></span>
+            </div>
+            <div class="input-container" style="text-align: center;">
+                <input class="action-button" data-ng-click="close();" type="submit" value="{{ 'administration.eventEditation.publish.closeEvent' | localized }}"/>
+            </div>
+        </div>
+        <div data-ng-if="event.eventStatus === 'CLOSED'">
+            <span class="headline">
+                <span class="check-box checked" style="margin-left: 20px; margin-top: 13px;"></span>
+                <span data-locale-string="administration.eventEditation.publish.headline2"></span>
+            </span>
+            <hr/>
+            <div class="notification">
+                <span data-locale-string="administration.eventEditation.publish.closed"></span><br/>
+                <span data-locale-string="administration.eventEditation.publish.closedDescription"></span>
+            </div>
+            <div class="input-container" style="text-align: center;">
+                <input class="action-button" data-ng-click="reopen();" type="submit" value="{{ 'administration.eventEditation.publish.reopenEvent' | localized }}"/>
+            </div>
+            <div class="input-container" style="text-align: center">
+                <label>
+                    <span data-locale-string="administration.eventEditation.publish.closedMessage"></span>
+                    <textarea style="width: 100%" data-error-aware
+                              data-ng-change="updateEventFeature()"
+                              data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
+                              data-ng-model="eventFeature.notification" name="label"></textarea>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
