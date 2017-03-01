@@ -1,0 +1,16 @@
+*.iml
+.DS_Store
+log.txt
+.project
+npm-debug.log
+.idea/
+backend/**/target/
+backend/**/overlays/
+deployment/**/target/
+deployment/**/overlays/
+deployment/**/node_modules/
+webapp/src/main/webapp/node_modules/
+webapp/src/main/webapp/dist/
+webapp/src/main/webapp/.tmp/
+webapp/src/main/webapp/.sass-cache/
+webapp/src/main/webapp/app/bower_components/
