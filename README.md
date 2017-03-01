@@ -12,6 +12,7 @@ Versionen
 ----------------
 
 Das System sollte in mehreren Versionen verfügbar sein:
+
 - Eine Basisversion, die alle Funktionalitäten anbietet, in der Form eines Multi Tenancy System als eine Art Online Shop, für ein breites Kundenspektrum, ohne individuelle Wünsche zum schnellen Konfigurieren und sofortigem produktiven Einsetzen zu einem Pauschalpreis.
 
 - Eine individuelle CMS Version auf Kunden zugeschnitten (Look&Feel, eigene Prozesse) zur Verwaltung von mehreren Veranstaltungen. Zielgruppe sollten spezialisierte Veranstaltungsmanagements sein, die mehrere Veranstaltungen pro Jahr organisieren.
@@ -24,10 +25,13 @@ Architektur
 Während der Entwicklung der älteren Version, sowie einiger anderer Projekte habe ich mich immer mehr mit dem Domain Driven Design angefreundet und so versucht möglichst viele Aspekte in dieser Version unterzubringen.
 Daher die Package Struktur:
 
-Infrastructure -> Technische Komponenten, Validatoren, Exception-Handling
-Domain -> fachliche Models, Logik, Factories, Events
-Application -> Fassade für domainspezifische Funktionalitäten, Verarbeitung von Commands von außen, Aufbereitung von Domain models in Representations für die Außenwelt
-Client -> REST Schnittstelle, Validierung von einkommenden Daten, Requests mappen auf Commands im Application Layer
+- **Infrastructure** -> Technische Komponenten, Validatoren, Exception-Handling
+
+- **Domain** -> fachliche Models, Logik, Factories, Events
+
+- **Application** -> Fassade für domainspezifische Funktionalitäten, Verarbeitung von Commands von außen, Aufbereitung von Domain models in Representations für die Außenwelt
+
+- **Client** -> REST Schnittstelle, Validierung von einkommenden Daten, Requests mappen auf Commands im Application Layer
 
 Als besonders wertvoll hat sich die Verwendung von Domain Events erwiesen. Bestimmte definierte Vorkommnisse innerhalb des System werden als Events modelliert und bei Auftreten losgeschickt und jegliche Komponente hat die Möglichkeit auf diese Events zu reagieren, was eine gut-wartbare lose Kopplung verschiedener Komponenten ermöglicht.
 Falls nötig könnte man diese Events auch persistieren, um zum Beispiel Statistiken, Audits oder Analysen anbieten zu können.
