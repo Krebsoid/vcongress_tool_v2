@@ -1,6 +1,7 @@
 package de.scisertec.account.domain.model;
 
 import de.scisertec.core.domain.model.base.DomainModel;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class Credential extends DomainModel<Credential> {
 
     String password;
 
+    String salt;
 
 
     public String username() {
@@ -31,13 +33,13 @@ public class Credential extends DomainModel<Credential> {
     }
 
     public Credential password(String password) {
-        this.password = password;
+        this.salt = RandomStringUtils.randomAlphanumeric(20);
+        this.password = DigestUtils.sha512Hex(password + salt);
         return this;
     }
 
     public Credential randomPassword() {
-        this.password = RandomStringUtils.randomAlphanumeric(8);
-        return this;
+        return password(RandomStringUtils.randomAlphanumeric(8));
     }
 
     public Credential self() {

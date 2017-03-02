@@ -29,11 +29,16 @@ Daher die Package Struktur:
 
 - **Domain** -> fachliche Models, Logik, Factories, Events
 
-- **Application** -> Fassade für domainspezifische Funktionalitäten, Verarbeitung von Commands von außen, Aufbereitung von Domain models in Representations für die Außenwelt
+- **Application** -> Fassade für domainspezifische Funktionalitäten, Verarbeitung von Commands von außen, Aufbereitung von Domain models in Representations (DTO) für die Außenwelt
 
 - **Client** -> REST Schnittstelle, Validierung von einkommenden Daten, Requests mappen auf Commands im Application Layer
 
 Als besonders wertvoll hat sich die Verwendung von Domain Events erwiesen. Bestimmte definierte Vorkommnisse innerhalb des System werden als Events modelliert und bei Auftreten losgeschickt und jegliche Komponente hat die Möglichkeit auf diese Events zu reagieren, was eine gut-wartbare lose Kopplung verschiedener Komponenten ermöglicht.
 Falls nötig könnte man diese Events auch persistieren, um zum Beispiel Statistiken, Audits oder Analysen anbieten zu können.
 
-Die Oberfläche wird komplett unabhängig vom Backend entwickelt, um mögliche Portierung zu vereinfachen. Zum Beispiel das Entwickeln einer Mobile App, die sich dann genauso nur der REST Schnittstelle bedient.
+Die Oberfläche wird komplett unabhängig vom Backend entwickelt, um mögliche Portierungen zu vereinfachen. Zum Beispiel das Entwickeln einer Mobile App, die sich dann genauso nur der REST Schnittstelle bedienen kann.
+
+
+Eine Registrierung als Teilnehmer zu einer Beispielveranstaltung ist verfügbar unter **http://cms.vcongress.de/test**
+
+Die Administration zu der Beispielveranstaltung ist verfügbar unter **http://cms.vcongress.de/administration** mit den Benutzerdaten user@user.de und Passwort user. 

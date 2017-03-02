@@ -161,7 +161,7 @@ public class User extends DomainModel<User> implements Deletable<User>, HttpSess
 
     public Boolean credentialCheck(String username, String password) {
         return credential.username().equals(username) &&
-                credential.password().equals(password);
+                credential.password().equals(DigestUtils.sha512Hex(password + credential().salt));
     }
 
     public Boolean hasGroup(Group group) {
