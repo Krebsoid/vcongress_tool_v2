@@ -38,6 +38,11 @@ Falls nötig könnte man diese Events auch persistieren, um zum Beispiel Statist
 
 Die Oberfläche wird komplett unabhängig vom Backend entwickelt, um mögliche Portierungen zu vereinfachen. Zum Beispiel das Entwickeln einer Mobile App, die sich dann genauso nur der REST Schnittstelle bedienen kann.
 
+Anwendung
+----------------
+
+Die vCongress CMS Version wird aktuell an 3 Standorten in Deutschland zur Abhandlung von mehreren Veranstaltungen eingesetzt. 
+Mitunter das Uniklinikum Leipzig, das letztes Jahr ca. 25 Veranstaltungen mit über 1600 Teilnehmern über das vCongress System organisiert hat.
 
 Eine Registrierung als Teilnehmer zu einer Beispielveranstaltung ist verfügbar unter **http://cms.vcongress.de/test**
 
