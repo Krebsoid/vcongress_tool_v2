@@ -39,6 +39,6 @@ Falls nötig könnte man diese Events auch persistieren, um zum Beispiel Statist
 Die Oberfläche wird komplett unabhängig vom Backend entwickelt, um mögliche Portierungen zu vereinfachen. Zum Beispiel das Entwickeln einer Mobile App, die sich dann genauso nur der REST Schnittstelle bedienen kann.
 
 
-Eine Registrierung als Teilnehmer zu einer Beispielveranstaltung ist verfügbar unter <a href="http://cms.vcongress.de/test" target="_blank">http://cms.vcongress.de/test</a>
+Eine Registrierung als Teilnehmer zu einer Beispielveranstaltung ist verfügbar unter **http://cms.vcongress.de/test**
 
-Die Administration zu der Beispielveranstaltung ist verfügbar unter <a href="http://cms.vcongress.de/administration" target="_blank">http://cms.vcongress.de/administration</a> mit den Benutzerdaten **user@user.de** und Passwort **user**. 
+Die Administration zu der Beispielveranstaltung ist verfügbar unter **http://cms.vcongress.de/administration** mit den Benutzerdaten **user@user.de** und Passwort **user**. 
